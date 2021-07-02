@@ -20,10 +20,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'TaskManager'`, () => {
+  it(`should have as title 'Task Manager'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('TaskManager');
+    expect(app.title).toEqual('Task Manager');
   });
 
   it('should render title', () => {
