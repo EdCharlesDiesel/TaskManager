@@ -6,10 +6,10 @@
   <div class="collapse navbar-collapse" id="mynav">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a href="#" class="nav-link">Dashboard</a>
+        <a class="nav-link" routerLink="dashboard">Dashboard</a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">About</a>
+        <a class="nav-link" routerLink="about">About</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -24,6 +24,5 @@
   </div>
 </nav>
 <div class="container-fluid">
-  <h1>Welcome to Our Task Manager</h1>
-  <h2>Hello</h2>
+  <router-outlet></router-outlet>
 </div>
