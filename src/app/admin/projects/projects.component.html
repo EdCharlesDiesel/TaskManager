@@ -1,6 +1,29 @@
 <h1>Projects</h1>
 <div class="row">
   <div class="col-8 max-auto">
+    <div class="form-group form-row">
+      <label for="dropSearchBy" class="col-form-label col-3">Search By</label>
+      <div class="col-9">
+        <select name="SearchBy" id="dropSearchBy" class="dropSearchBy" [(ngModel)]="searchBy">
+          <option value="ProjectId">Project ID</option>
+          <option value="ProjectName">Project Name</option>
+          <option value="DateOfStart">Start Date</option>
+          <option value="TeamSize">Team Size</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group form-row">
+      <label for="dropSearchText" class="col-form-label col-3">Search:</label>
+      <div class="col-9">
+        <input type="text" class="form-control" id="searchText" name="searchText" [(ngModel)]="searchText">
+        <div class="input-group-append" (click)="onSearchClick()">
+          <span class="input-group-text"><i class="fa fa-search"></i></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-8 max-auto">
     <button class="btn btn-primary" data-toggle="modal" data-target="#newModal">Create Button</button>
   </div>
   <div class="col-8 max-auto">

@@ -11,9 +11,12 @@ export class ProjectsService {
 
   baseURL = 'https://localhost:44349/api/projects/';
   Projects$ = this.getAllProjects().pipe(shareReplay(1));
-  //categories$ = this.http.get<Categories[]>(this.baseURL + 'GetCategoriesList').pipe(shareReplay(1));
 
   constructor(private httpClient: HttpClient) { }
+
+  searchProjects(searchBy:string, searchText: string): Observable<Project[]> {
+    return this.httpClient.get<Project[]>(this.baseURL + searchBy + searchText, { responseType: 'json' });
+  }
 
   getAllProjects(): Observable<Project[]> {
     return this.httpClient.get<Project[]>(this.baseURL, { responseType: 'json' });
