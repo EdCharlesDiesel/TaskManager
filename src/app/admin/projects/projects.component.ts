@@ -13,6 +13,8 @@ export class ProjectsComponent implements OnInit {
   newProject: Project = new Project();
   editProject: Project = new Project();
   editIndex: number = 0;
+  deleteProject: Project = new Project();
+  deleteIndex: number = 0;
 
   constructor(private projectSvc: ProjectsService) { }
 
@@ -20,7 +22,6 @@ export class ProjectsComponent implements OnInit {
     this.projectSvc.getAllProjects().subscribe(
       (response: Project[]) => {
         this.projects = response;
-        console.log(response);
       })
   }
 
@@ -51,7 +52,7 @@ export class ProjectsComponent implements OnInit {
     this.editProject.teamSize = this.projects[index].teamSize;
   }
   onUpdateClick() {
-    this.projectSvc.updateProjectDetails(this.editProject).subscribe((response: any) => {
+    this.projectSvc.updateProject(this.editProject).subscribe((response: any) => {
       let project: Project = new Project();
       project.projectId = response.productId;
       project.projectName = response.projectName;
@@ -66,6 +67,28 @@ export class ProjectsComponent implements OnInit {
       this.editProject.teamSize = null
     },
       () => { }
+    );
+  }
+  onDeleteClick(event: any, index: number) {
+    this.deleteIndex = index;
+    this.deleteProject.projectId = this.projects[index].projectId;
+    this.deleteProject.projectName = this.projects[index].projectName;
+    this.deleteProject.dateOfStart = this.projects[index].dateOfStart;
+    this.deleteProject.teamSize = this.projects[index].teamSize;
+  }
+
+  onDeleteConfirmClick() {
+    this.projectSvc.deleteProject(this.deleteProject.projectId).subscribe(
+      (response) => {
+        this.projects.splice(this.deleteIndex, 1);
+        this.deleteProject.projectId = '0';
+        this.deleteProject.projectName = null;
+        this.deleteProject.dateOfStart = null;
+        this.deleteProject.teamSize = null;
+      },
+      (error) => {
+        console.log(error);
+      }
     );
   }
 }
