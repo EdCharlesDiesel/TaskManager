@@ -16,22 +16,22 @@ export class ProjectsService {
   constructor(private httpClient: HttpClient) { }
 
   getAllProjects(): Observable<Project[]> {
-    return this.httpClient.get<Project[]>(this.baseURL);
+    return this.httpClient.get<Project[]>(this.baseURL, { responseType: 'json' });
   }
 
-  addProject(project:Project) {
-    return this.httpClient.post(this.baseURL, project);
+  addProject(project: Project) {
+    return this.httpClient.post(this.baseURL, project, { responseType: 'json' });
   }
 
   getProjectById(projectId: string) {
     return this.Projects$.pipe(map(Project => Project.find(b => b.projectId === projectId)));
   }
 
-  updateProjectDetails(project:Project) {
-    return this.httpClient.put(this.baseURL, project);
+  updateProject(project: Project) {
+    return this.httpClient.put(this.baseURL, project, { responseType: 'json' });
   }
 
-  deleteProject(id: number) {
-    return this.httpClient.delete(this.baseURL + id);
+  deleteProject(projectId: number) {
+    return this.httpClient.delete<string>(this.baseURL + projectId);
   }
 }
