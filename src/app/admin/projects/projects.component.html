@@ -1,0 +1,74 @@
+<h1>Projects</h1>
+<div class="row">
+  <div class="col-8 max-auto">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#newMmodal">Create Button</button>
+  </div>
+  <div class="col-8 max-auto">
+    <table class="table">
+      <thead>
+        <th>Project ID</th>
+        <th>Project Name</th>
+        <th>Date of Start</th>
+        <th>Team Size</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of projects">
+          <td>{{ project.projectId }}</td>
+          <td>{{ project.projectName}}</td>
+          <td>{{ project.dateOfStart }}</td>
+          <td>{{ project.teamSize }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<form>
+  <div class="modal" role="dialog" id="newMmodal">
+    <div class="modal-dialog">
+      <div class="modal-content" style="width:700px">
+        <div class="modal-header">
+          <div class="modal-title">New Project</div>
+          <button class="close" data-dismis="modal"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row">
+            <label for="ProjectId" class="col-sm-2">ProjectId</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="ProjectId" style="width:200px;" placeholder="Product ID"
+                name="ProjectId" [(ngModel)]="newProject.projectId">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="ProjectName" class="col-sm-2">Project Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="ProjectName" style="width:200px;" placeholder="Project Name"
+                name="ProjectName">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="DateOfStart" class="col-sm-2">Start Date</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="DateOfStart" style="width: 200px;" placeholder="Start Date"
+                name="DateOfStart">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="TeamSize" class="col-sm-2">Team Size</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="TeamSize" style="width: 200px;" placeholder="Team Size"
+                name="TeamSize">
+            </div>
+          </div>
+          <div class="footer">
+            <button data-dismis="modal" class="btn btn-success">Save</button>
+            <button data-dismis="modal" class="btn btn-warning">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
