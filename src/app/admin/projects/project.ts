@@ -1,12 +1,12 @@
 export class Project {
-  productId: string;
-  productName: string;
+  projectId: string;
+  projectName: string;
   dateOfStart: Date;
   teamSize: string;
 
   constructor() {
-    this.productId = '00000000-0000-0000-0000-000000000000',
-      this.productName = '',
+    this.projectId = '00000000-0000-0000-0000-000000000000',
+      this.projectName = '',
       this.dateOfStart = new Date,
       this.teamSize = '0'
   }
