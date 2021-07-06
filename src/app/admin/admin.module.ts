@@ -7,13 +7,15 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     AboutComponent,
     MyProfileComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    LoginComponent,
   ],
   imports: [
     CommonModule,

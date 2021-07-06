@@ -1,3 +1,4 @@
+import { LoginService } from './admin/login/login.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -5,4 +6,11 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {}
+export class AppComponent {
+
+  loginService: any;
+
+  constructor(public _loginSvc:LoginService){
+
+  }
+}
