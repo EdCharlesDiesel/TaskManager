@@ -5,30 +5,51 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mynav">
         <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="mynav">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item" *ngIf="loginService.currentUserName != null">
-                <a class="nav-link" routerLink="dashboard">Dashboard</a>
-            </li>
+
+            <ng-container *ngIf="loginService.currentUserName != null && loginService.currentUserRole == 'Admin'">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]=" [ '/admin', 'dashboard' ] ">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]=" [ '/admin', 'projects' ] ">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]=" [ '/admin', 'masters' ] ">Masters</a>
+                </li>
+            </ng-container>
+
+            <ng-container *ngIf="loginService.currentUserName != null && loginService.currentUserRole == 'Employee'">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]=" [ '/employee', 'tasks' ] ">Tasks</a>
+                </li>
+            </ng-container>
+
+            <ng-container *ngIf="loginService.currentUserName == null">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]=" [ '/login' ] ">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]=" [ '/signup' ] ">Sign Up</a>
+                </li>
+            </ng-container>
+
             <li class="nav-item">
-                <a class="nav-link" routerLink="about">About</a>
+                <a class="nav-link" [routerLink]=" [ '/about' ] ">About</a>
             </li>
-            <li class="nav-item" *ngIf="loginService.currentUserName != null">
-                <a class="nav-link" routerLink="projects">Projects</a>
-            </li>
-            <li class="nav-item" *ngIf="loginService.currentUserName != null">
-                <a class="nav-link" href="#">{{loginService.currentUserName}}</a>
-            </li>
-            <li class="nav-item" *ngIf="loginService.currentUserName != null">
-                <a class="nav-link" href="#" (click)="loginService.Logout()">Logout</a>
-            </li>
-            <li class="nav-item" *ngIf="loginService.currentUserName == null">
-                <a class="nav-link" routerLink="login">Login</a>
-            </li>
-            <li class="nav-item" *ngIf="loginService.currentUserName == null">
-                <a class="nav-link" routerLink="signup">Sign Up</a>
-            </li>
+
+            <ng-container *ngIf="loginService.currentUserName != null">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]=" [ '/myprofile' ] ">{{loginService.currentUserName}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" (click)="loginService.Logout()">Logout</a>
+                </li>
+            </ng-container>
         </ul>
+
         <form class="form-inline my-2 my-lg-0">
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -41,6 +62,6 @@
     </div>
 </nav>
 
-<div class="container-fluid">
-    <router-outlet></router-outlet>
+<div class="container-fluid" [@routeAnimations]="getState(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
 </div>
