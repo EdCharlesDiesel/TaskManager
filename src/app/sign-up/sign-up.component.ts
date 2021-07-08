@@ -19,7 +19,8 @@ export class SignUpComponent implements OnInit
   countries: Country[] = [];
   registerError: string = '';
 
-  constructor(private countriesService: CountriesService, private formBuilder: FormBuilder, private customValidatorsService: CustomValidatorsService, private loginService: LoginService, private router: Router)
+  constructor(private countriesService: CountriesService, private formBuilder: FormBuilder,
+    private customValidatorsService: CustomValidatorsService, private loginService: LoginService, private router: Router)
   {
   }
 

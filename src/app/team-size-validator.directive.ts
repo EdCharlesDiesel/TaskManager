@@ -9,7 +9,7 @@ export class TeamSizeValidatorDirective implements Validator {
   constructor() {
   }
 
-  @Input("appTeamSizeValidator") n: string | number = 0;
+  @Input("appTeamSizeValidator") n: any= 0;
 
   validate(control: AbstractControl): ValidationErrors | null {
     let currentValue = control.value;
