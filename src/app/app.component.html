@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm bg-success navbar-dark">
     <a class="navbar-brand" href="#">
-        Task Manager
+        Angular Task Manager
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mynav">
         <span class="navbar-toggler-icon"></span>
@@ -25,8 +25,8 @@
             <li class="nav-item" *ngIf="loginService.currentUserName == null">
                 <a class="nav-link" routerLink="login">Login</a>
             </li>
-            <li class="nav-item">
-                <a href="#" href="#"><img [src]="myProperty" width="40px"></a>
+            <li class="nav-item" *ngIf="loginService.currentUserName == null">
+                <a class="nav-link" routerLink="signup">Sign Up</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
