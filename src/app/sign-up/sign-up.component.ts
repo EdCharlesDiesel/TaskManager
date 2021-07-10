@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { CountriesService } from '../countries.service';
-import { Country } from '../country';
-import { CustomValidatorsService } from '../custom-validators.service';
-import { SignUpViewModel } from '../sign-up-view-model';
-import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
+import { Country } from '../models/country';
+import { SignUpViewModel } from '../models/sign-up-view-model';
+import { CountriesService } from '../services/countries.service';
+import { LoginService } from '../services/login.service';
+import { CustomValidatorsService } from '../shared/custom-validators.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -69,11 +69,11 @@ export class SignUpComponent implements OnInit
     {
       var signUpVieModel = this.signUpForm.value as SignUpViewModel;
       this.loginService.Register(signUpVieModel).subscribe(
-        (response) =>
+        (response: any) =>
         {
           this.router.navigate(["tasks"]);
         },
-        (error) =>
+        (error: any) =>
         {
           console.log(error);
           this.registerError = "Unable to submit";

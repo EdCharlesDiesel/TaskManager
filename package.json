@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -19,6 +19,10 @@
     "@angular/platform-browser-dynamic": "~12.0.2",
     "@angular/router": "~12.0.2",
     "@auth0/angular-jwt": "^5.0.2",
+    "@ngrx/effects": "^12.2.0",
+    "@ngrx/entity": "^12.2.0",
+    "@ngrx/store": "^12.2.0",
+    "@ngrx/store-devtools": "^12.2.0",
     "bootstrap": "^4.6.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.0",

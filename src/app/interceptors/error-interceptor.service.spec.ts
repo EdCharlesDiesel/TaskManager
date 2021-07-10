@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { JwtUnAuthorizedInterceptorService } from './jwt-un-authorized-interceptor.service';
+import { JwtUnAuthorizedInterceptorService } from './error-interceptor.service';
 
 describe('JwtUnAuthorizedInterceptorService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

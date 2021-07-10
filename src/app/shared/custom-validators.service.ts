@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ValidatorFn, AbstractControl, ValidationErrors, FormGroup, AsyncValidatorFn, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { LoginService } from './login.service';
 import { map } from 'rxjs/operators';
+import { LoginService } from '../services/login.service';
 
 @Injectable({
   providedIn: 'root'

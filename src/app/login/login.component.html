@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
   <div class="row">
     <div class="col-lg-6 col-xl-5 col-md-9 mx-auto">
       <div class="card mt-4">
@@ -9,22 +9,25 @@
           <div class="form-group form-row">
             <label for="UserName" class="col-md-4 col-form-label">Username</label>
             <div class="col-md-8">
-              <input type="text" class="form-control" placeholder="Username" [(ngModel)]="loginViewModel.UserName" name="UserName" autofocus="autofocus">
+              <input type="text" class="form-control" placeholder="Username"
+              formControlName="username" required name="UserName" autofocus="autofocus">
             </div>
           </div>
 
           <div class="form-group form-row">
             <label for="Password" class="col-md-4 col-form-label">Password</label>
             <div class="col-md-8">
-              <input type="password" class="form-control" placeholder="Password" [(ngModel)]="loginViewModel.Password" name="Password">
+              <input  class="form-control" placeholder="Password"
+              formControlName="password" [type]="showPassword ? 'password' : 'text'" required
+               name="Password" >
             </div>
           </div>
 
         </div>
 
         <div class="card-footer text-right">
-          <span class="text-danger">{{loginError}}&nbsp;</span>
-          <button class="btn btn-primary" (click)="onLoginClick($event)">Login</button>
+          <!-- <span class="text-danger" >{{loginError}}&nbsp;</span> -->
+          <button class="btn btn-primary" >Login</button>
         </div>
       </div>
     </div>

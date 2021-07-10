@@ -8,10 +8,10 @@ import { AdminModule } from './admin/admin.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { JwtInterceptorService } from './jwt-interceptor.service';
-import { JwtUnAuthorizedInterceptorService } from './jwt-un-authorized-interceptor.service';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { TasksComponent } from './tasks/tasks.component';
+import { ErrorInterceptorService } from './interceptors/error-interceptor.service';
+import { HttpInterceptorService } from './interceptors/http-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -36,16 +36,8 @@ import { TasksComponent } from './tasks/tasks.component';
     })
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptorService,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtUnAuthorizedInterceptorService,
-      multi: true
-    }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

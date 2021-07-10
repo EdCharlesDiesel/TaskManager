@@ -4,9 +4,9 @@ import { DashboardComponent } from "./admin/dashboard/dashboard.component";
 import { AboutComponent } from "./admin/about/about.component";
 import { ProjectsComponent } from "./admin/projects/projects.component";
 import { LoginComponent } from './login/login.component';
-import { CanActivateGuardService } from './can-activate-guard.service';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { TasksComponent } from './tasks/tasks.component';
+import { CanActivateGuardService } from './guards/can-activate-guard.service';
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },

@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProjectsService } from "../../projects.service";
-import { Project } from '../../project';
-import { ClientLocation } from '../../client-location';
-import { ClientLocationsService } from '../../client-locations.service';
-import { NgForm } from '@angular/forms';
 import * as $ from 'jquery';
-
+import { ClientLocation } from 'src/app/models/client-location';
+import { Project } from 'src/app/models/project';
+import { ClientLocationsService } from 'src/app/services/client-locations.service';
+import { ProjectsService } from 'src/app/services/projects.service';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
