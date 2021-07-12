@@ -8,9 +8,6 @@ import { tap } from 'rxjs/operators';
 })
 export class JwtUnAuthorizedInterceptorService implements HttpInterceptor
 {
-  constructor()
-  {
-  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
   {

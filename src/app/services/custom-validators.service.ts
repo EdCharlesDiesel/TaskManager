@@ -20,10 +20,10 @@ export class CustomValidatorsService
       if (!control.value)
         return null; //return, if the date of birth is null
 
-      var today = new Date();
-      var dateOfBirth = new Date(control.value);
-      var diffMilliSeconds = Math.abs(today.getTime() - dateOfBirth.getTime());
-      var diffYears = (diffMilliSeconds / (1000 * 60 * 60 * 24)) / 365.25;
+      const today = new Date();
+      const dateOfBirth = new Date(control.value);
+      const diffMilliSeconds = Math.abs(today.getTime() - dateOfBirth.getTime());
+      const diffYears = (diffMilliSeconds / (1000 * 60 * 60 * 24)) / 365.25;
 
       if (diffYears >= minAge)
         return null; //valid
@@ -32,7 +32,7 @@ export class CustomValidatorsService
     };
   }
 
-  public compareValidator(controlToValidate: string, controlToCompare: string): ValidatorFn
+  public compareValidator(controlToValidate: string | null, controlToCompare: string): ValidatorFn
   {
     return (formGroup: FormGroup | any): ValidationErrors | null =>
     {

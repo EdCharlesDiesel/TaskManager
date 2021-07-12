@@ -1,9 +1,9 @@
 export class User {
-  userId: number = 0;
-  firstName: string = '';
-  lastName: string = '';
-  emailaddress: string = '';
-  username: string ='';
-  userTypeId: number = 0;
-  isLoggedIn: boolean = false;
+  userId = 0;
+  firstName= '';
+  lastName = '';
+  emailaddress = '';
+  username ='';
+  userTypeId = 0;
+  isLoggedIn = false;
 }

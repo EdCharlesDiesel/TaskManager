@@ -17,9 +17,9 @@ export class ProjectDetailsComponent implements OnInit {
     this.project = new Project();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.routeParmsSubscription = this.activatedRoute.params.subscribe((params) => {
-      let pid = params["projectid"];
+      const pid = params["projectid"];
 
       this.projectsService.getProjectByProjectID(pid).subscribe((proj: Project) => {
         this.project = proj;
@@ -28,7 +28,7 @@ export class ProjectDetailsComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy() : void{
     this.routeParmsSubscription.unsubscribe();
   }
 }

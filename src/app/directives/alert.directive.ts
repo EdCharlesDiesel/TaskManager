@@ -3,21 +3,18 @@ import { Directive, ElementRef, Input, HostListener, HostBinding, Renderer2 } fr
 @Directive({
   selector: '[appAlert]'
 })
-export class AlertDirective
-{
-  @Input("error") error: string='';
-  @HostBinding("title") title: string='';
+export class AlertDirective {
+  @Input("error") error = '';
+  @HostBinding("title") title = '';
 
-  constructor(private elementRef: ElementRef, private renderer2 : Renderer2)
-  {
+  constructor(private elementRef: ElementRef, private renderer2: Renderer2) {
   }
 
   divElement: any;
   spanElement: any;
   spanText: any;
 
-  ngOnInit()
-  {
+  ngOnInit() : void{
     /* div */
     this.divElement = this.renderer2.createElement("div"); //<div></div>
 
@@ -47,16 +44,14 @@ export class AlertDirective
     this.title = "Please try again!";
   }
 
-  @HostListener("mouseenter", [ "$event" ])
-  onMouseEnter(event: any)
-  {
+  @HostListener("mouseenter", ["$event"])
+  onMouseEnter(event: any) : void{
     //this.elementRef.nativeElement.querySelector(".alert").style.transform = "scale(1.1)";
     this.renderer2.setStyle(this.divElement, "transform", "scale(1.1)");
   }
 
-  @HostListener("mouseleave", [ "$event" ])
-  onMouseLeave()
-  {
+  @HostListener("mouseleave", ["$event"])
+  onMouseLeave() : void{
     //this.elementRef.nativeElement.querySelector(".alert").style.transform = "scale(1)";
     this.renderer2.setStyle(this.divElement, "transform", "scale(1)");
   }

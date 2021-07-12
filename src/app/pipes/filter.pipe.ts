@@ -13,8 +13,8 @@ export class FilterPipe implements PipeTransform
       return value;
     }
 
-    let resultArray = [];
-    for (let item of value)
+    const resultArray = [];
+    for (const item of value)
     {
       if (String(item[searchBy]).toLowerCase().indexOf(searchText.toLowerCase()) >= 0)
       {

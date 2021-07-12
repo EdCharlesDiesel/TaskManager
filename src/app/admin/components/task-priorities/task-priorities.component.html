@@ -8,7 +8,7 @@
     <div class="form-group row">
 
       <div class="col-md-12 col-lg-12 col-xl-2">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#newTaskPriorityModal" (click)="onNewClick($event)">Create Task Priority</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#newTaskPriorityModal" (click)="onNewClick()">Create Task Priority</button>
       </div>
 
       <label for="drpSearchBy" class="col-form-label col-md-6 col-lg-2 offset-xl-1 col-xl-2 text-right">Search by:</label>
@@ -23,7 +23,7 @@
 
       <div class="col-md-6 col-lg-4 col-xl-3">
         <div class="input-group">
-          <input type="text" class="form-control" id="txtSearchText" name="SearchText" [(ngModel)]="searchText" (keyup)="onSearchTextChange($event)">
+          <input type="text" class="form-control" id="txtSearchText" name="SearchText" [(ngModel)]="searchText" (keyup)="onSearchTextChange()">
         </div>
       </div>
     </div>
@@ -46,12 +46,12 @@
 
             <th class="text-center" style="width:200px">Actions</th>
           </tr>
-          
+
           <tr *ngFor="let taskPriority of taskPriorities | filter: searchBy : searchText | sort : sortBy : sortOrder | paging : currentPageIndex : pageSize; let i = index">
             <td>{{taskPriority.taskPriorityName}}</td>
             <td class="text-center">
-              <button class="btn btn-info" (click)="onEditClick($event, taskPriority)" data-toggle="modal" data-target="#editTaskPriorityModal">Edit</button>&nbsp;
-              <button class="btn btn-warning" (click)="onDeleteClick($event, taskPriority)" data-toggle="modal" data-target="#deleteModal">Delete</button>
+              <button class="btn btn-info" (click)="onEditClick( taskPriority)" data-toggle="modal" data-target="#editTaskPriorityModal">Edit</button>&nbsp;
+              <button class="btn btn-warning" (click)="onDeleteClick(taskPriority)" data-toggle="modal" data-target="#deleteModal">Delete</button>
             </td>
           </tr>
         </table>

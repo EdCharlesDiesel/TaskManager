@@ -12,7 +12,7 @@
     <div class="form-group row">
 
       <div class="col-md-12 col-lg-12 col-xl-2">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#newCountryModal" (click)="onNewClick($event)">Create Country</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#newCountryModal" (click)="onNewClick()">Create Country</button>
       </div>
 
       <label for="drpSearchBy" class="col-form-label col-md-6 col-lg-2 offset-xl-1 col-xl-2 text-right">Search by:</label>
@@ -27,7 +27,7 @@
 
       <div class="col-md-6 col-lg-4 col-xl-3">
         <div class="input-group">
-          <input type="text" class="form-control" id="txtSearchText" name="SearchText" [(ngModel)]="searchText" (keyup)="onSearchTextChange($event)">
+          <input type="text" class="form-control" id="txtSearchText" name="SearchText" [(ngModel)]="searchText" (keyup)="onSearchTextChange()">
         </div>
       </div>
     </div>
@@ -55,8 +55,8 @@
           <tr *ngFor="let country of countries | filter: searchBy : searchText | sort: sortBy : sortOrder | paging : currentPageIndex : pageSize; let i = index">
             <td>{{country.countryName}}</td>
             <td class="text-center">
-              <button class="btn btn-info" (click)="onEditClick($event, country)" data-toggle="modal" data-target="#editCountryModal">Edit</button>&nbsp;
-              <button class="btn btn-warning" (click)="onDeleteClick($event, country)" data-toggle="modal" data-target="#deleteCountryModal">Delete</button>
+              <button class="btn btn-info" (click)="onEditClick(country)" data-toggle="modal" data-target="#editCountryModal">Edit</button>&nbsp;
+              <button class="btn btn-warning" (click)="onDeleteClick(country)" data-toggle="modal" data-target="#deleteCountryModal">Delete</button>
             </td>
           </tr>
         </table>

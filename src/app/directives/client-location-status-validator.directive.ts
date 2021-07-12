@@ -7,9 +7,6 @@ import { NG_VALIDATORS, Validator, AbstractControl, ValidationErrors } from '@an
 })
 export class ClientLocationStatusValidatorDirective implements Validator
 {
-  constructor()
-  {
-  }
 
   validate(control: AbstractControl) : ValidationErrors | null
   {

@@ -4,9 +4,7 @@ import { LoginViewModel } from '../../models/login-view-model';
 import { LoginService } from '../../services/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
-import { User } from 'src/app/models/user';
+import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { CustomValidatorsService } from 'src/app/services/custom-validators.service';
 
 @Component({
@@ -16,41 +14,46 @@ import { CustomValidatorsService } from 'src/app/services/custom-validators.serv
 })
 export class LoginComponent implements OnInit {
   loginViewModel: LoginViewModel = new LoginViewModel();
-  loginError: string = "";
+  loginError = "";
   userId: any;
-  loginForm: FormGroup | any;
+  loginForm: FormGroup;
   showPassword = true;
 
   private unsubscribe$ = new Subject<void>();
 
-  getUsername() {
-    return this.loginForm.get('username');
-  }
+  // getUsername() : void{
+  //   return this.loginForm.get('username');
+  // }
 
-  getPassword() {
-    return this.loginForm.get('password');
-  }
+  // getPassword() : void{
+  //   return this.loginForm.get('password');
+  // }
   constructor(private loginService: LoginService,
     private _router: Router,
     private _route: ActivatedRoute,
     private _authenticationSvc: AuthenticationService,
     private formBuilder: FormBuilder,
     private customValidatorsService: CustomValidatorsService) {
+
+      this.loginForm = new FormGroup({
+        username: new FormControl(),
+        password:new FormControl()
+      })
   }
 
-  ngOnInit() {
+  ngOnInit() : void{
 
     this.loginForm = this.formBuilder.group({
       username: [null, [Validators.required]],
       password: [null, [Validators.required]]
     }, {
       validators: [
-        this.customValidatorsService.compareValidator("confirmPassword", "password")
+        // this.customValidatorsService.compareValidator("confirmPassword", "password")
       ]
     });
-  };
+  }
 
-  onloginClick() {
+  onloginClick(event: Event) : void{
 
     //Display current form value
 

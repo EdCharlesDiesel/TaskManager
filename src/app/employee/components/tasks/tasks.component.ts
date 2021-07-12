@@ -9,12 +9,12 @@ import { GroupedTask } from '../../../models/grouped-task';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
-  taskGroups: GroupedTask[] | any;
+  taskGroups: GroupedTask[] = []
 
   constructor(private tasksService: TasksService, public loginService: LoginService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.tasksService.getTasks().subscribe((response) => {
       this.taskGroups = response;
     });
@@ -22,7 +22,7 @@ export class TasksComponent implements OnInit {
 
   /* Get background color based on task status */
   getTaskGroupBgCssClass(taskStatusName: string): string {
-    var className: any;
+    let className = '';
     switch (taskStatusName) {
       case "Holding": className = "bg-secondary text-white"; break;
       case "Prioritized": className = "bg-primary text-white"; break;
@@ -35,7 +35,7 @@ export class TasksComponent implements OnInit {
 
   /* Get background color based on task priority */
   getTaskPriorityBadgeCssClass(taskPriorityName: string): string {
-    var className : any;
+    let className = '';
     switch (taskPriorityName) {
       case "Urgent": className = "badge-danger"; break;
       case "Normal": className = "badge-primary"; break;
@@ -47,7 +47,7 @@ export class TasksComponent implements OnInit {
 
   /* Get text color based on task status */
   getTaskGroupTextCssClass(taskStatusName: string): string {
-    var className : any;
+    let className = '';
     switch (taskStatusName) {
       case "Holding": className = "text-secondary"; break;
       case "Prioritized": className = "text-primary"; break;

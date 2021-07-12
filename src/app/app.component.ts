@@ -3,7 +3,7 @@ import { LoginService } from './services/login.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterLoggerService } from './services/router-logger.service';
 import { Router, NavigationEnd } from '@angular/router';
-import { fadeAnimation, slideUpAnimation, zoomUpAnimation, zoomLeftAnimation, slideLeftOrRightAnimation, keyFrameAnimation } from "./my-animations";
+import { keyFrameAnimation } from "./my-animations";
 
 @Component({
   selector: 'app-root',
@@ -15,14 +15,14 @@ export class AppComponent {
   constructor(public loginService: LoginService, private domSanitizer: DomSanitizer, private routerLoggerService: RouterLoggerService, private router: Router) {
   }
 
-  ngOnInit() {
+  ngOnInit() : void{
     this.loginService.detectIfAlreadyLoggedIn();
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        let userName = (this.loginService.currentUserName) ? this.loginService.currentUserName : "anonymous";
+        const userName = (this.loginService.currentUserName) ? this.loginService.currentUserName : "anonymous";
 
-        let logMsg = new Date().toLocaleString() + ": " + userName + " navigates to " + event.url;
+        const logMsg = new Date().toLocaleString() + ": " + userName + " navigates to " + event.url;
 
         //this.routerLoggerService.log(logMsg).subscribe();
       }
@@ -33,7 +33,7 @@ export class AppComponent {
     console.log(this.loginService.currentUserName);
   }
 
-  getState(outlet: any) {
-    return outlet.isActivated ? outlet.activatedRoute.snapshot.url[0].path && outlet.activatedRouteData["linkIndex"] : "none";
+  getState(outconst: any) {
+    return outconst.isActivated ? outconst.activatedRoute.snapshot.url[0].path && outconst.activatedRouteData["linkIndex"] : "none";
   }
 }

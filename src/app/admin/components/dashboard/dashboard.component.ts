@@ -7,15 +7,15 @@ import { DashboardService } from '../../../services/dashboard.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  Designation: string='';
-  Username: string='';
-  NoOfTeamMembers: number=0;
-  TotalCostOfAllProjects: number=0;
-  PendingTasks: number=0;
-  UpComingProjects: number=0;
-  ProjectCost: number=0;
-  CurrentExpenditure: number=0;
-  AvailableFunds: number=0;
+  Designation = '';
+  Username = '';
+  NoOfTeamMembers = 0;
+  TotalCostOfAllProjects = 0;
+  PendingTasks = 0;
+  UpComingProjects = 0;
+  ProjectCost = 0;
+  CurrentExpenditure = 0;
+  AvailableFunds = 0;
   ToDay: Date | any;
 
   Clients: string[] = [];
@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.Designation = "Team Leader";
     this.Username = "Scott Smith";
     this.NoOfTeamMembers = 67;
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
       "Project A", "Project B", "Project C", "Project D"
     ];
 
-    for (var i = 2019; i >= 2010; i--) {
+    for (let i = 2019; i >= 2010; i--) {
       this.Years.push(i);
     }
 
@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit {
     ];
   }
 
-  onProjectChange($event: any) {
+  onProjectChange($event: any): void {
     if ($event.target.innerHTML == "Project A") {
       this.ProjectCost = 2113507;
       this.CurrentExpenditure = 96788;

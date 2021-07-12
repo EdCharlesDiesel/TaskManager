@@ -11,14 +11,14 @@ export class SignUpViewModel
     skills: any;
 
     constructor(personName: any = null,
-        email: string = '',
-        mobile: string = '',
-        dateOfBirth: string = '',
-        password: string = '',
-        gender: string = '',
-        countryID: number = 0,
-        receiveNewsLetters: boolean = false,
-        skills: any = null,)
+        email = '',
+        mobile = '',
+        dateOfBirth = '',
+        password = '',
+        gender = '',
+        countryID = 0,
+        receiveNewsLetters = false,
+        skills = null,)
     {
         this.personName = personName;
         this.email = email;

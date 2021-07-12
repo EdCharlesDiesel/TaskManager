@@ -17,8 +17,8 @@ export class LoginService {
     JwtHelperService, private httpClient: HttpClient) {
   }
 
-  currentUserName: string = '';
-  currentUserRole: string = '';
+  currentUserName = '';
+  currentUserRole = '';
 
   public Login(loginViewModel: LoginViewModel): Observable<any> {
     this.httpClient = new HttpClient(this.httpBackend);
@@ -34,15 +34,15 @@ export class LoginService {
       }));
   }
 
-  public detectIfAlreadyLoggedIn() {
+  public detectIfAlreadyLoggedIn() : void{
     if (this.jwtHelperService.isTokenExpired() == false) {
-      var currentUser = JSON.parse(sessionStorage.currentUser);
+      const currentUser = JSON.parse(sessionStorage.currentUser);
       this.currentUserName = currentUser.userName;
       this.currentUserRole = currentUser.role;
     }
   }
 
-  public Register(signUpViewModel: SignUpViewModel): Observable<any> {
+  public Register(signUpViewModel: SignUpViewModel): Observable<SignUpViewModel> {
     this.httpClient = new HttpClient(this.httpBackend);
     return this.httpClient.post<any>("/register", signUpViewModel, { responseType: "json", observe: "response" })
       .pipe(map(response => {
@@ -60,13 +60,13 @@ export class LoginService {
     return this.httpClient.get<any>("/api/getUserByEmail/" + Email, { responseType: "json" });
   }
 
-  public Logout() {
+  public Logout() : void{
     sessionStorage.removeItem("currentUser");
     this.currentUserName = '';
   }
 
   public isAuthenticated(): boolean {
-    var token = sessionStorage.getItem("currentUser") ? JSON.parse(sessionStorage.getItem("currentUser") as string).token : null;
+    const token = sessionStorage.getItem("currentUser") ? JSON.parse(sessionStorage.getItem("currentUser") as string).token : null;
     if (this.jwtHelperService.isTokenExpired()) {
       return false; //token is not valid
     }
