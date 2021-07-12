@@ -24,7 +24,7 @@ export class AppComponent {
 
         let logMsg = new Date().toLocaleString() + ": " + userName + " navigates to " + event.url;
 
-        this.routerLoggerService.log(logMsg).subscribe();
+        //this.routerLoggerService.log(logMsg).subscribe();
       }
     });
   }

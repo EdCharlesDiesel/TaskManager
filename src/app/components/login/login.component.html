@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="loginForm"  novalidate>
   <div class="row">
     <div class="col-lg-6 col-xl-5 col-md-9 mx-auto">
       <div class="card mt-4">
@@ -9,16 +9,23 @@
 
         <div class="card-body">
           <div class="form-group form-row">
-            <label for="UserName" class="col-md-4 col-form-label">Username</label>
+            <label for="username" class="col-md-4 col-form-label">Username</label>
             <div class="col-md-8">
-              <input type="text" class="form-control" placeholder="Username" [(ngModel)]="loginViewModel.UserName" name="UserName" autofocus="autofocus">
+              <!-- <input type="text" class="form-control" placeholder="Username"
+              [(ngModel)]="loginViewModel.UserName" name="UserName" autofocus="autofocus"> -->
+              <!-- <input class="form-group"  placeholder="Username" formControlName="username" required> -->
+              <input type="text"  placeholder="Username" class="form-control" >
+
             </div>
           </div>
 
-          <div class="form-group form-row">
-            <label for="Password" class="col-md-4 col-form-label">Password</label>
+          <div class="form-group form-row" >
+            <label for="password" class="col-md-4 col-form-label">Password</label>
             <div class="col-md-8">
-              <input type="password" class="form-control" placeholder="Password" [(ngModel)]="loginViewModel.Password" name="Password">
+              <!-- <input type="password" class="form-control" placeholder="Password" [(ngModel)]="loginViewModel.Password" name="Password"> -->
+              <!-- <input  class="form-group" placeholder="Password" formControlName="password"
+              [type]="showPassword ? 'password' : 'text'" required> -->
+              <input type="text" name="password" id="password" placeholder="password" class="form-control" formControlName="username" >
             </div>
           </div>
 
@@ -26,7 +33,8 @@
 
         <div class="card-footer text-right">
           <!-- <span class="text-danger">{{loginError}}&nbsp;</span> -->
-          <button class="btn btn-primary" (click)="onLoginClick($event)">Login</button>
+           <button class="btn btn-primary" (click)="onloginClick()">Login</button>
+          <!-- <button class="btn btn-primary" >Login</button> -->
 
           <!-- <div *appRepeater="5; let i">
             <a class="btn btn-primary" data-toggle="collapse" [href]=" '#collapse' + i " role="button">Show Details</a>
