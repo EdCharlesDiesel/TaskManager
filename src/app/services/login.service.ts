@@ -11,7 +11,10 @@ import { SignUpViewModel } from './../models/sign-up-view-model';
 })
 export class LoginService {
 
-  constructor(private httpBackend: HttpBackend, private jwtHelperService: JwtHelperService, private httpClient: HttpClient) {
+  BASE_URL = 'https://localhost:5001/api';
+
+  constructor(private httpBackend: HttpBackend, private jwtHelperService:
+    JwtHelperService, private httpClient: HttpClient) {
   }
 
   currentUserName: string = '';
@@ -19,7 +22,7 @@ export class LoginService {
 
   public Login(loginViewModel: LoginViewModel): Observable<any> {
     this.httpClient = new HttpClient(this.httpBackend);
-    return this.httpClient.post<any>("/authenticate", loginViewModel, { responseType: "json", observe: "response" })
+    return this.httpClient.post<any>(this.BASE_URL+"/login", loginViewModel, { responseType: "json", observe: "response" })
       .pipe(map(response => {
         if (response) {
           this.currentUserName = response.body.userName;

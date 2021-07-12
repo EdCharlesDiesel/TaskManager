@@ -8,18 +8,20 @@ import { Observable } from 'rxjs';
 })
 export class CountriesService
 {
+  BASE_URL = 'https://localhost:5001';
+
   constructor(private httpClient: HttpClient)
   {
   }
 
   getCountries(): Observable<Country[]>
   {
-    return this.httpClient.get<Country[]>("/api/countries", { responseType: "json" });
+    return this.httpClient.get<Country[]>(this.BASE_URL+"/api/countries", { responseType: "json" });
   }
 
   getCountryByCountryID(CountryID: number): Observable<Country>
   {
-    return this.httpClient.get<Country>("/api/countries/searchbycountryid/" + CountryID, { responseType: "json" });
+    return this.httpClient.get<Country>(this.BASE_URL + "/api/countries/searchbycountryid/" + CountryID, { responseType: "json" });
   }
 
   insertCountry(newCountry: Country): Observable<Country>
