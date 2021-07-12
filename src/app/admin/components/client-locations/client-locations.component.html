@@ -9,7 +9,7 @@
 
       <div class="col-md-12 col-lg-12 col-xl-2">
         <button class="btn btn-primary" data-toggle="modal" data-target="#newClientLocationModal"
-          (click)="onNewClick($event)">Create Client Location</button>
+          (click)="onNewClick()">Create Client Location</button>
       </div>
 
       <label for="drpSearchBy" class="col-form-label col-md-6 col-lg-2 offset-xl-1 col-xl-2 text-right">Search
@@ -26,7 +26,7 @@
       <div class="col-md-6 col-lg-4 col-xl-3">
         <div class="input-group">
           <input type="text" class="form-control" id="txtSearchText" name="SearchText" [(ngModel)]="searchText"
-            (keyup)="onSearchTextChange($event)">
+            (keyup)="onSearchTextChange()">
         </div>
       </div>
     </div>
@@ -57,9 +57,9 @@
             *ngFor="let clientLocation of clientLocations | filter: searchBy : searchText | sort : sortBy : sortOrder | paging : currentPageIndex : pageSize; let i = index">
             <td>{{clientLocation.clientLocationName}}</td>
             <td class="text-center">
-              <button class="btn btn-info" (click)="onEditClick($event, clientLocation)" data-toggle="modal"
+              <button class="btn btn-info" (click)="onEditClick( clientLocation)" data-toggle="modal"
                 data-target="#editClientLocationModal">Edit</button>&nbsp;
-              <button class="btn btn-warning" (click)="onDeleteClick($event, clientLocation)" data-toggle="modal"
+              <button class="btn btn-warning" (click)="onDeleteClick(clientLocation)" data-toggle="modal"
                 data-target="#deleteModal">Delete</button>
             </td>
           </tr>
@@ -133,10 +133,10 @@
             <div class="col-sm-8">
               <input type="text" id="txtNewClientLocationName" class="form-control" placeholder="Client Location Name"
                 name="ClientLocationName" formControlName="clientLocationName" maxlength="30" #defaultTextBox_New
-                [ngClass]="{ 'is-invalid': newForm.get('clientLocationName').invalid && (newForm.get('clientLocationName').dirty || newForm.get('clientLocationName').touched || newForm.submitted), 'is-valid': newForm.get('clientLocationName').valid && (newForm.get('clientLocationName').dirty || newForm.get('clientLocationName').touched || newForm.submitted) }">
+                >
 
               <span class="text-danger"
-                *ngIf="newForm.get('clientLocationName').invalid && (newForm.get('clientLocationName').dirty || newForm.get('clientLocationName').touched || newForm.submitted) && newForm.get('clientLocationName').errors?.required">Client
+                >Client
                 Location Name can't be blank</span>
             </div>
           </div>
@@ -167,11 +167,9 @@
             <label for="txtEditClientLocationName" class="col-sm-4 col-form-label">Client Location Name *</label>
             <div class="col-sm-8">
               <input type="text" id="txtEditClientLocationName" class="form-control" placeholder="Client Location Name"
-                name="ClientLocationName" formControlName="clientLocationName" maxlength="30" #defaultTextBox_Edit
-                [ngClass]="{ 'is-invalid': editForm.get('clientLocationName').invalid && (editForm.get('clientLocationName').dirty || editForm.get('clientLocationName').touched || editForm.submitted), 'is-valid': editForm.get('clientLocationName').valid && (editForm.get('clientLocationName').dirty || editForm.get('clientLocationName').touched || editForm.submitted) }">
+                name="ClientLocationName" formControlName="clientLocationName" maxlength="30" #defaultTextBox_Edit                >
 
-              <span class="text-danger"
-                *ngIf="editForm.get('clientLocationName').invalid && (editForm.get('clientLocationName').dirty || editForm.get('clientLocationName').touched || editForm.submitted) && editForm.get('clientLocationName').errors?.required">Client
+              <span class="text-danger"     >Client
                 Location Name can't be blank</span>
             </div>
           </div>

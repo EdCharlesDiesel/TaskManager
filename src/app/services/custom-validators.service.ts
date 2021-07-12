@@ -32,7 +32,7 @@ export class CustomValidatorsService
     };
   }
 
-  public compareValidator(controlToValidate: string, controlToCompare: string): ValidatorFn
+  public compareValidator(controlToValidate: string | null, controlToCompare: string): ValidatorFn
   {
     return (formGroup: FormGroup | any): ValidationErrors | null =>
     {

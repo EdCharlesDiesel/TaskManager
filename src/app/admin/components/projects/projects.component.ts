@@ -1,3 +1,4 @@
+import { PageIndexModel } from './../../../models/pageIndexModel';
 import { Component, OnInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { ProjectsService } from '../../../services/projects.service';
 import { Project } from '../../../models/project';
@@ -22,19 +23,20 @@ export class ProjectsComponent implements OnInit {
   newProject: Project = new Project();
   editProject: Project = new Project();
   editIndex = 0;
-  deconsteProject: Project = new Project();
-  deconsteIndex = 0;
+  deleteProject: Project;
+  deleteIndex = 0;
   searchBy = 'projectName';
   searchText = '';
 
   currentPageIndex = 0;
-  pages = [];
+  pages:PageIndexModel[] = [];
   pageSize = 3;
 
   @ViewChild('newForm') newForm: NgForm | any;
   @ViewChild('editForm') editForm: NgForm | any;
 
   constructor(private projectsService: ProjectsService, private clientLocationsService: ClientLocationsService) {
+    this.deleteProject = new Project;
   }
 
   ngOnInit(): void {
@@ -50,13 +52,13 @@ export class ProjectsComponent implements OnInit {
     this.clientLocations = this.clientLocationsService.getClientLocations();
   }
 
-  calculateNoOfPages() {
+  calculateNoOfPages() : void{
     const filterPipe = new FilterPipe();
     const resultProjects = filterPipe.transform(this.projects, this.searchBy, this.searchText);
     const noOfPages = Math.ceil(resultProjects.length / this.pageSize);
 
     this.pages = [];
-    for (const i = 0; i < noOfPages; i++) {
+    for (let i = 0; i < noOfPages; i++) {
       this.pages.push({ pageIndex: i });
     }
 
@@ -67,16 +69,16 @@ export class ProjectsComponent implements OnInit {
 
   @ViewChildren('prj') projs: QueryList<ProjectComponent> | any;
 
-  isAllCheckedChange(event: any): void {
+  isAllCheckedChange(): void {
     const proj = this.projs.toArray();
-    for (const i = 0; i < proj.length; i++) {
+    for (let i = 0; i < proj.length; i++) {
       proj[i].isAllCheckedChange(this.isAllChecked);
     }
   }
 
-  @ViewChild('prjID') prjID: ElementRef | any;
+  @ViewChild('prjID') prjID: ElementRef| any;
 
-  onNewClick(event: any): void {
+  onNewClick(): void {
     this.newForm.resetForm();
     setTimeout(() => {
       this.prjID.nativeElement.focus();
@@ -116,7 +118,7 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  onEditClick(event: any, index: number) : void{
+  onEditClick(index: number) : void{
     this.editForm.resetForm();
     setTimeout(() => {
       this.editProject.projectID = this.projects[index].projectID;
@@ -161,26 +163,26 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  onDeconsteClick(event: any, index: number) : void{
-    this.deconsteIndex = index;
-    this.deconsteProject.projectID = this.projects[index].projectID;
-    this.deconsteProject.projectName = this.projects[index].projectName;
-    this.deconsteProject.dateOfStart = this.projects[index].dateOfStart;
-    this.deconsteProject.teamSize = this.projects[index].teamSize;
+  onDeleteClick(index: number) : void{
+    this.deleteIndex = index;
+    this.deleteProject.projectID = this.projects[index].projectID;
+    this.deleteProject.projectName = this.projects[index].projectName;
+    this.deleteProject.dateOfStart = this.projects[index].dateOfStart;
+    this.deleteProject.teamSize = this.projects[index].teamSize;
   }
 
-  onDeconsteConfirmClick() : void{
-    this.projectsService.deconsteProject(this.deconsteProject.projectID).subscribe(
+  onDeleteConfirmClick() : void{
+    this.projectsService.deleteProject(this.deleteProject.projectID).subscribe(
       () => {
-        this.projects.splice(this.deconsteIndex, 1);
-        this.deconsteProject.projectID = 0;
-        this.deconsteProject.projectName = '';
-        this.deconsteProject.teamSize = 0;
-        this.deconsteProject.dateOfStart = '';
+        this.projects.splice(this.deleteIndex, 1);
+        this.deleteProject.projectID = 0;
+        this.deleteProject.projectName = '';
+        this.deleteProject.teamSize = 0;
+        this.deleteProject.dateOfStart = '';
 
         this.calculateNoOfPages();
       },
-      (error: any) => {
+      (error: unknown) => {
         console.log(error);
       });
   }
@@ -197,11 +199,11 @@ export class ProjectsComponent implements OnInit {
     //   });
   }
 
-  onSearchTextKeyup(event: any): void {
+  onSearchTextKeyup(): void {
     this.calculateNoOfPages();
   }
 
-  onHideShowDetails(event: any) : void{
+  onHideShowDetails() : void{
     this.projectsService.toggleDetails();
   }
 

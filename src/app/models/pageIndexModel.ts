@@ -1,3 +1,3 @@
 export interface PageIndexModel{
-  pageIndex:0;
+  pageIndex:number;
 }

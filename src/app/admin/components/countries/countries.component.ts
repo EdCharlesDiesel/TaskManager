@@ -1,3 +1,4 @@
+import { PageIndexModel } from './../../../models/pageIndexModel';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Country } from '../../../models/country';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -17,9 +18,9 @@ export class CountriesComponent implements OnInit
   showLoading = false;
 
   //Objects for Deconste
-  deconsteCountry: Country = new Country();
+  deleteCountry: Country = new Country();
   editIndex = 0;
-  deconsteIndex = 0;
+  deleteIndex = 0;
 
   //Properties for Searching
   searchBy = "countryName";
@@ -27,7 +28,7 @@ export class CountriesComponent implements OnInit
 
   //Properties for Paging
   currentPageIndex = 0;
-  pages: any[] = [];
+  pages: PageIndexModel[] = [];
   pageSize = 7;
 
   //Reactive Forms
@@ -80,24 +81,24 @@ export class CountriesComponent implements OnInit
     this.pages = [];
 
     //Generate pages
-    for (const i = 0; i < noOfPages; i++)
+    for (let i = 0; i < noOfPages; i++)
     {
-      this.pages.push({ pageIndex: i });
+      this.pages.push({ pageIndex: i } as PageIndexModel);
     }
 
     this.currentPageIndex = 0;
   }
 
-  onPageIndexClicked(ind: any): void
+  onPageIndexClicked(index: number): void
   {
     //Set currentPageIndex
-    if (ind >= 0 && ind < this.pages.length)
+    if (index >= 0 && index < this.pages.length)
     {
-      this.currentPageIndex = ind;
+      this.currentPageIndex = index;
     }
   }
 
-  onNewClick(event: any): void
+  onNewClick(): void
   {
     //reset the newForm
     this.newForm.reset({ countryID: 0 });
@@ -133,7 +134,7 @@ export class CountriesComponent implements OnInit
     }
   }
 
-  onEditClick(event: any, country: Country)
+  onEditClick( country: Country): void
   {
     //Reset the editForm
     this.editForm.reset();
@@ -149,7 +150,7 @@ export class CountriesComponent implements OnInit
     }, 100);
   }
 
-  onUpdateClick()
+  onUpdateClick():void
   {
     if (this.editForm.valid)
     {
@@ -170,36 +171,36 @@ export class CountriesComponent implements OnInit
     }
   }
 
-  onDeconsteClick(event: any, country: Country)
+  onDeleteClick(country: Country): void
   {
     //Set data into deconsteCountry
-    this.deconsteCountry.countryID = country.countryID;
-    this.deconsteCountry.countryName = country.countryName;
-    this.deconsteIndex = this.countries.indexOf(country);
+    this.deleteCountry.countryID = country.countryID;
+    this.deleteCountry.countryName = country.countryName;
+    this.deleteIndex = this.countries.indexOf(country);
   }
 
-  onDeconsteConfirmClick(): void
+  onDeleteConfirmClick(): void
   {
     //Invoke the REST-API call
-    this.countriesService.deconsteCountry(this.deconsteCountry.countryID).subscribe(
+    this.countriesService.deleteCountry(this.deleteCountry.countryID).subscribe(
       () =>
       {
         //Deconste object in Grid
-        this.countries.splice(this.deconsteIndex, 1);
+        this.countries.splice(this.deleteIndex, 1);
 
         //Clear deconsteCountry
-        this.deconsteCountry.countryID = 0;
-        this.deconsteCountry.countryName = '';
+        this.deleteCountry.countryID = 0;
+        this.deleteCountry.countryName = '';
 
         this.calculateNoOfPages();
       },
-      (error: any) =>
+      (error:unknown) =>
       {
         console.log(error);
       });
   }
 
-  onSearchTextChange(event: any): void
+  onSearchTextChange(): void
   {
     //Recall the calculateNoOfPages
     this.calculateNoOfPages();

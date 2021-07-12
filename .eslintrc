@@ -8,6 +8,8 @@
       "sourceType": "module"
     },
     "rules": {
-
+      // "quotemark": [
+      //   false
+      // ]
     }
 }

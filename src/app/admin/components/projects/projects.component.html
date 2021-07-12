@@ -7,17 +7,17 @@
     <div class="form-group form-row">
 
       <div class="col-2">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#newModal" (click)="onNewClick($event)">Create
+        <button class="btn btn-primary" data-toggle="modal" data-target="#newModal" (click)="onNewClick()">Create
           Project</button>
       </div>
 
       <div class="col-2">
-        <button class="btn btn-secondary" (click)="onHideShowDetails($event)">Hide/Show Details</button>
+        <button class="btn btn-secondary" (click)="onHideShowDetails()">Hide/Show Details</button>
       </div>
 
       <div class="col-1 custom-control custom-checkbox">
         <input type="checkbox" value="true" name="isAllChecked" id="isAllChecked" [(ngModel)]="isAllChecked"
-          class="custom-control-input" (change)="isAllCheckedChange($event)">
+          class="custom-control-input" (change)="isAllCheckedChange()">
         <label class="custom-control-label" for="isAllChecked">
         </label>
       </div>
@@ -38,7 +38,7 @@
       <div class="col-3">
         <div class="input-group">
           <input type="text" class="form-control" id="txtSearchText" name="SearchText" [(ngModel)]="searchText"
-            (keyup)="onSearchTextKeyup($event)">
+            (keyup)="onSearchTextKeyup()">
           <!-- <div class="input-group-append" (click)="onSearchClick()">
             <span class="input-group-text"><i class="fa fa-search"></i></span>
           </div> -->
@@ -54,8 +54,8 @@
       <div class="col-md-4 mb-1 projectcard"
         *ngFor="let project of projects | filter: searchBy : searchText | paging : currentPageIndex : pageSize; let i = index">
 
-        <app-project #prj [currentProject]="project" [recordIndex]="i" (editClick)="onEditClick($event, i)"
-          (deleteClick)="onDeleteClick($event, i)">
+        <app-project #prj [currentProject]="project" [recordIndex]="i" (editClick)="onEditClick(i)"
+          (deleteClick)="onDeleteClick(i)">
           <app-check-box-printer #selectionBox>
           </app-check-box-printer>
         </app-project>
@@ -423,7 +423,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-warning" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-success" data-dismiss="modal" (click)="onDeleteConfirmClick()">Delete</button>
+          <button class="btn btn-success" data-dismiss="modal" (click)="onDeleteConfirmClick">Delete</button>
         </div>
       </div>
     </div>

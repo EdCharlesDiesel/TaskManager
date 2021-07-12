@@ -16,10 +16,10 @@ export class TaskPrioritiesComponent implements OnInit {
   taskPriorities: TaskPriority[] = [];
   showLoading = true;
 
-  //Objects for Deconste
-  deconsteTaskPriority: TaskPriority = new TaskPriority();
+  //Objects for delete
+  deleteTaskPriority: TaskPriority = new TaskPriority();
   editIndex = 0;
-  deconsteIndex = 0;
+  deleteIndex = 0;
 
   //Properties for Searching
   searchBy = 'taskPriorityName';
@@ -151,23 +151,23 @@ export class TaskPrioritiesComponent implements OnInit {
     }
   }
 
-  onDeconsteClick(taskPriority: TaskPriority): void {
-    //Set data into deconsteTaskPriority
-    this.deconsteTaskPriority.taskPriorityID = taskPriority.taskPriorityID;
-    this.deconsteTaskPriority.taskPriorityName = taskPriority.taskPriorityName;
-    this.deconsteIndex = this.taskPriorities.indexOf(taskPriority);
+  onDeleteClick(taskPriority: TaskPriority): void {
+    //Set data into deleteTaskPriority
+    this.deleteTaskPriority.taskPriorityID = taskPriority.taskPriorityID;
+    this.deleteTaskPriority.taskPriorityName = taskPriority.taskPriorityName;
+    this.deleteIndex = this.taskPriorities.indexOf(taskPriority);
   }
 
-  onDeconsteConfirmClick(): void {
+  onDeleteConfirmClick(): void {
     //Invoke the REST-API call
-    this.taskPrioritiesService.deconsteTaskPriority(this.deconsteTaskPriority.taskPriorityID).subscribe(
+    this.taskPrioritiesService.deleteTaskPriority(this.deleteTaskPriority.taskPriorityID).subscribe(
       () => {
-        //Deconste object in Grid
-        this.taskPriorities.splice(this.deconsteIndex, 1);
+        //delete object in Grid
+        this.taskPriorities.splice(this.deleteIndex, 1);
 
-        //Clear deconsteCountry
-        this.deconsteTaskPriority.taskPriorityID = 0;
-        this.deconsteTaskPriority.taskPriorityName = '';
+        //Clear deleteCountry
+        this.deleteTaskPriority.taskPriorityID = 0;
+        this.deleteTaskPriority.taskPriorityName = '';
 
         //Recall the calculateNoOfPages
         this.calculateNoOfPages();

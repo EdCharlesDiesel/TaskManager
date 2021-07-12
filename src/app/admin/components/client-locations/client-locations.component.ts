@@ -1,3 +1,4 @@
+import { PageIndexModel } from './../../../models/pageIndexModel';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ClientLocation } from '../../../models/client-location';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -26,7 +27,7 @@ export class ClientLocationsComponent implements OnInit {
 
   //Properties for Paging
   currentPageIndex = 0;
-  pages = [];
+  pages: PageIndexModel[] = [];
   pageSize = 7;
   pageIndex = 0;
 
@@ -39,11 +40,11 @@ export class ClientLocationsComponent implements OnInit {
   editForm: FormGroup;
 
   //Autofocus TextBoxes
-  @ViewChild('defaultTextBox_New') defaultTextBox_New: ElementRef | any;
-  @ViewChild('defaultTextBox_Edit') defaultTextBox_Edit: ElementRef | any;
+  @ViewChild('defaultTextBox_New') defaultTextBox_New: ElementRef;
+  @ViewChild('defaultTextBox_Edit') defaultTextBox_Edit: ElementRef;
 
   //Constructor
-  constructor(private clientLocationsService: ClientLocationsService, private formBuilder: FormBuilder) {
+  constructor(private clientLocationsService: ClientLocationsService, private formBuilder: FormBuilder, private elementRef: ElementRef) {
     this.newForm = new FormGroup({
       clientLocationID: new FormControl(),
       clientLocationName: new FormControl()
@@ -53,6 +54,9 @@ export class ClientLocationsComponent implements OnInit {
       clientLocationID: new FormControl(),
       clientLocationName: new FormControl()
     });
+
+    this.defaultTextBox_New = this.elementRef.nativeElement();
+    this.defaultTextBox_Edit = this.elementRef.nativeElement();
   }
 
   ngOnInit(): void {
@@ -87,7 +91,6 @@ export class ClientLocationsComponent implements OnInit {
 
     //Generate pages
     for (let i = 0; i < noOfPages; i++) {
-      const pageIndex = 0
       this.pages.push({ pageIndex: i });
     }
 
@@ -101,7 +104,7 @@ export class ClientLocationsComponent implements OnInit {
     }
   }
 
-  onNewClick(event: any): void {
+  onNewClick(): void {
     //reset the newForm
     this.newForm.reset({ clientLocationID: 0 });
     setTimeout(() => {
@@ -132,7 +135,7 @@ export class ClientLocationsComponent implements OnInit {
     }
   }
 
-  onEditClick(event: any, clientLocation: ClientLocation): void {
+  onEditClick(clientLocation: ClientLocation): void {
     //Reset the editForm
     this.editForm.reset();
     setTimeout(() => {
@@ -162,14 +165,14 @@ export class ClientLocationsComponent implements OnInit {
     }
   }
 
-  onDeleteClick(event: any, clientLocation: ClientLocation): void {
+  onDeleteClick(clientLocation: ClientLocation): void {
     //Set data into deleteClientLocation
     this.deleteClientLocation.clientLocationID = clientLocation.clientLocationID;
     this.deleteClientLocation.clientLocationName = clientLocation.clientLocationName;
     this.deleteIndex = this.clientLocations.indexOf(clientLocation);
   }
 
-  onDeleteConfirmClick() : void{
+  onDeleteConfirmClick(): void {
     //Invoke the REST-API call
     this.clientLocationsService.deleteClientLocation(this.deleteClientLocation.clientLocationID).subscribe(
       () => {
@@ -188,7 +191,7 @@ export class ClientLocationsComponent implements OnInit {
       });
   }
 
-  onSearchTextChange(event: any) : void{
+  onSearchTextChange(): void {
     this.calculateNoOfPages();
   }
 }

@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TaskStatusesService
 {
+
   constructor(private httpClient: HttpClient)
   {
   }

@@ -1,3 +1,4 @@
+import { PageIndexModel } from './../../../models/pageIndexModel';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TaskStatus } from '../../../models/task-status';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -14,11 +15,10 @@ export class TaskStatusComponent implements OnInit {
   //Objects for Holding Model Data
   taskStatuses: TaskStatus[] = [];
   showLoading = true;
-
-  //Objects for Deconste
-  deconsteTaskStatus: TaskStatus = new TaskStatus();
+  deleteTaskStatus: any;
+  //Objects for delete
   editIndex = 0;
-  deconsteIndex = 0;
+  deleteIndex = 0;
 
   //Properties for Searching
   searchBy = "taskStatusName";
@@ -27,7 +27,7 @@ export class TaskStatusComponent implements OnInit {
 
   //Properties for Paging
   currentPageIndex = 0;
-  pages = [];
+  pages: PageIndexModel[] = [];
   pageSize = 7;
   pageIndex = 0;
 
@@ -45,6 +45,7 @@ export class TaskStatusComponent implements OnInit {
 
   //Constructor
   constructor(private taskStatusesService: TaskStatusesService, private formBuilder: FormBuilder) {
+    this.deleteTaskStatus = new TaskStatus();
   }
 
   ngOnInit(): void {
@@ -92,7 +93,7 @@ export class TaskStatusComponent implements OnInit {
     }
   }
 
-  onNewClick(event: unknown): void {
+  onNewClick(): void {
     //reset the newForm
     this.newForm.reset({ taskStatusID: 0 });
     setTimeout(() => {
@@ -152,23 +153,23 @@ export class TaskStatusComponent implements OnInit {
     }
   }
 
-  onDeconsteClick(taskStatus: TaskStatus): void {
-    //Set data into deconsteTaskStatus
-    this.deconsteTaskStatus.taskStatusID = taskStatus.taskStatusID;
-    this.deconsteTaskStatus.taskStatusName = taskStatus.taskStatusName;
-    this.deconsteIndex = this.taskStatuses.indexOf(taskStatus);
+  onDeleteClick(taskStatus: TaskStatus): void {
+    //Set data into deleteTaskStatus
+    this.deleteTaskStatus.taskStatusID = taskStatus.taskStatusID;
+    this.deleteTaskStatus.taskStatusName = taskStatus.taskStatusName;
+    this.deleteIndex = this.taskStatuses.indexOf(taskStatus);
   }
 
-  onDeconsteConfirmClick(): void {
+  ondeleteConfirmClick(): void {
     //Invoke the REST-API call
-    this.taskStatusesService.deconsteTaskStatus(this.deconsteTaskStatus.taskStatusID).subscribe(
+    this.taskStatusesService.deleteTaskStatus(this.deleteTaskStatus.taskStatusID).subscribe(
       () => {
-        //Deconste object in Grid
-        this.taskStatuses.splice(this.deconsteIndex, 1);
+        //delete object in Grid
+        this.taskStatuses.splice(this.deleteIndex, 1);
 
-        //Clear deconsteCountry
-        this.deconsteTaskStatus.taskStatusID = 0;
-        this.deconsteTaskStatus.taskStatusName = '';
+        //Clear deleteCountry
+        this.deleteTaskStatus.taskStatusID = 0;
+        this.deleteTaskStatus.taskStatusName = '';
 
         //Recall the calculateNoOfPages
         this.calculateNoOfPages();
@@ -177,6 +178,8 @@ export class TaskStatusComponent implements OnInit {
         console.log(error);
       });
   }
+
+
 
   onSearchTextChange(): void {
     this.calculateNoOfPages();
