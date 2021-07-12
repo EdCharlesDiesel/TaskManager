@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, Observer, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Project } from './../models/project';
 import { map } from "rxjs/operators";
 
@@ -9,6 +9,7 @@ import { map } from "rxjs/operators";
 })
 export class ProjectsService
 {
+  requestHeaders = new HttpHeaders();
   public MySubject: BehaviorSubject<boolean>;
 
   constructor(private httpClient: HttpClient)
@@ -16,7 +17,7 @@ export class ProjectsService
     this.MySubject = new BehaviorSubject<boolean>(false);
   }
 
-  toggleDetails()
+  toggleDetails(): void
   {
     this.MySubject.next(!this.MySubject.value);
   }
@@ -43,9 +44,8 @@ export class ProjectsService
 
   insertProject(newProject: Project): Observable<Project>
   {
-    var requestHeaders = new HttpHeaders();
-    requestHeaders = requestHeaders.set("X-XSRF-TOKEN", sessionStorage.XSRFRequestToken);
-    return this.httpClient.post<Project>("/api/projects", newProject, { headers: requestHeaders, responseType: "json" });
+    this.requestHeaders.set("X-XSRF-TOKEN", sessionStorage.XSRFRequestToken);
+    return this.httpClient.post<Project>("/api/projects", newProject, { headers: this.requestHeaders, responseType: "json" });
   }
 
   updateProject(existingProject: Project): Observable<Project>

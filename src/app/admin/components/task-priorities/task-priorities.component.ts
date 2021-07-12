@@ -1,58 +1,55 @@
+import { PageIndexModel } from './../../../models/pageIndexModel';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TaskPriority } from '../../../models/task-priority';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TaskPrioritiesService } from '../../../services/task-priorities.service';
 import { FilterPipe } from '../../../pipes/filter.pipe';
-import * as $ from "jquery";
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-task-priorities',
   templateUrl: './task-priorities.component.html',
   styleUrls: ['./task-priorities.component.scss']
 })
-export class TaskPrioritiesComponent implements OnInit
-{
+export class TaskPrioritiesComponent implements OnInit {
   //Objects for Holding Model Data
   taskPriorities: TaskPriority[] = [];
-  showLoading: boolean = true;
+  showLoading = true;
 
-  //Objects for Delete
-  deleteTaskPriority: TaskPriority = new TaskPriority();
-  editIndex: number = 0;
-  deleteIndex: number = 0;
+  //Objects for Deconste
+  deconsteTaskPriority: TaskPriority = new TaskPriority();
+  editIndex = 0;
+  deconsteIndex = 0;
 
   //Properties for Searching
-  searchBy: string = "taskPriorityName";
-  searchText: string = "";
+  searchBy = 'taskPriorityName';
+  searchText = '';
 
   //Properties for Paging
-  currentPageIndex: number = 0;
-  pages: any[] = [];
-  pageSize: number = 7;
+  currentPageIndex = 0;
+  pages: PageIndexModel[] = [];
+  pageSize = 7;
 
   //Properties for Sorting
-  sortBy: string = "taskPriorityName";
-  sortOrder: string = "ASC";
+  sortBy = 'taskPriorityName';
+  sortOrder = 'ASC';
 
   //Reactive Forms
   newForm: FormGroup | any;
   editForm: FormGroup | any;
 
   //Autofocus TextBoxes
-  @ViewChild("defaultTextBox_New") defaultTextBox_New: ElementRef | any;
-  @ViewChild("defaultTextBox_Edit") defaultTextBox_Edit: ElementRef | any;
+  @ViewChild('defaultTextBox_New') defaultTextBox_New: ElementRef | any;
+  @ViewChild('defaultTextBox_Edit') defaultTextBox_Edit: ElementRef | any;
 
   //Constructor
-  constructor(private taskPrioritiesService: TaskPrioritiesService, private formBuilder: FormBuilder)
-  {
+  constructor(private taskPrioritiesService: TaskPrioritiesService, private formBuilder: FormBuilder) {
   }
 
-  ngOnInit()
-  {
+  ngOnInit(): void {
     //Get data from database
     this.taskPrioritiesService.getTaskPriorities().subscribe(
-      (response: TaskPriority[]) =>
-      {
+      (response: TaskPriority[]) => {
         this.taskPriorities = response;
         this.showLoading = false;
         this.calculateNoOfPages();
@@ -72,74 +69,62 @@ export class TaskPrioritiesComponent implements OnInit
     });
   }
 
-  calculateNoOfPages()
-  {
+  calculateNoOfPages(): void {
     //Get no. of Pages
-    let filterPipe = new FilterPipe();
-    var noOfPages = Math.ceil(filterPipe.transform(this.taskPriorities, this.searchBy, this.searchText).length / this.pageSize);
+    const filterPipe = new FilterPipe();
+    const noOfPages = Math.ceil(filterPipe.transform(this.taskPriorities, this.searchBy, this.searchText).length / this.pageSize);
     this.pages = [];
 
     //Generate pages
-    for (let i = 0; i < noOfPages; i++)
-    {
-      this.pages.push({ pageIndex: i });
+    for (let i = 0; i < noOfPages; i++) {
+      this.pages.push({ pageIndex: 1 });
     }
 
     this.currentPageIndex = 0;
   }
 
-  onPageIndexClicked(ind: any)
-  {
+  onPageIndexClicked(index: number): void {
     //Set currentPageIndex
-    if (ind >= 0 && ind < this.pages.length)
-    {
-      this.currentPageIndex = ind;
+    if (index >= 0 && index < this.pages.length) {
+      this.currentPageIndex = index;
     }
   }
 
-  onNewClick(event: any)
-  {
+  onNewClick(): void {
     //reset the newForm
     this.newForm.reset({ taskPriorityID: 0 });
-    setTimeout(() =>
-    {
+    setTimeout(() => {
       //Focus the TaskPriority textbox in newForm
       this.defaultTextBox_New.nativeElement.focus();
     }, 100);
   }
 
-  onSaveClick()
-  {
-    if (this.newForm.valid)
-    {
+  onSaveClick(): void {
+    if (this.newForm.valid) {
       //Invoke the REST-API call
-      this.taskPrioritiesService.insertTaskPriority(this.newForm.value).subscribe((response) =>
-      {
+      this.taskPrioritiesService.insertTaskPriority(this.newForm.value).subscribe((response) => {
         //Add Response to Grid
-        var p: TaskPriority = new TaskPriority();
+        const p: TaskPriority = new TaskPriority();
         p.taskPriorityID = response.taskPriorityID;
         p.taskPriorityName = response.taskPriorityName;
         this.taskPriorities.push(p);
 
         //Reset the newForm
         this.newForm.reset();
-        $("#newTaskPriorityFormCancel").trigger("click");
+        $('#newTaskPriorityFormCancel').trigger('click');
         this.calculateNoOfPages();
 
         this.calculateNoOfPages();
-      }, (error) =>
-        {
-          console.log(error);
-        });
+      }, (error) => {
+        console.log(error);
+      });
     }
   }
 
-  onEditClick(event: any, taskPriority: TaskPriority)
-  {
+  onEditClick(taskPriority: TaskPriority): void {
     //Reset the editForm
     this.editForm.reset();
-    setTimeout(() =>
-    {
+    setTimeout(() => {
       //Set data into editForm
       this.editForm.patchValue(taskPriority);
       this.editIndex = this.taskPriorities.indexOf(taskPriority);
@@ -149,59 +134,50 @@ export class TaskPrioritiesComponent implements OnInit
     }, 100);
   }
 
-  onUpdateClick()
-  {
-    if (this.editForm.valid)
-    {
+  onUpdateClick(): void {
+    if (this.editForm.valid) {
       //Invoke the REST-API call
-      this.taskPrioritiesService.updateTaskPriority(this.editForm.value).subscribe((response: TaskPriority) =>
-      {
+      this.taskPrioritiesService.updateTaskPriority(this.editForm.value).subscribe((response: TaskPriority) => {
         //Update the response in Grid
         this.taskPriorities[this.editIndex] = response;
 
         //Reset the editForm
         this.editForm.reset();
-        $("#editTaskPriorityFormCancel").trigger("click");
+        $('#editTaskPriorityFormCancel').trigger('click');
       },
-        (error) =>
-        {
+        (error) => {
           console.log(error);
         });
     }
   }
 
-  onDeleteClick(event: any, taskPriority: TaskPriority)
-  {
-    //Set data into deleteTaskPriority
-    this.deleteTaskPriority.taskPriorityID = taskPriority.taskPriorityID;
-    this.deleteTaskPriority.taskPriorityName = taskPriority.taskPriorityName;
-    this.deleteIndex = this.taskPriorities.indexOf(taskPriority);
+  onDeconsteClick(taskPriority: TaskPriority): void {
+    //Set data into deconsteTaskPriority
+    this.deconsteTaskPriority.taskPriorityID = taskPriority.taskPriorityID;
+    this.deconsteTaskPriority.taskPriorityName = taskPriority.taskPriorityName;
+    this.deconsteIndex = this.taskPriorities.indexOf(taskPriority);
   }
 
-  onDeleteConfirmClick()
-  {
+  onDeconsteConfirmClick(): void {
     //Invoke the REST-API call
-    this.taskPrioritiesService.deleteTaskPriority(this.deleteTaskPriority.taskPriorityID).subscribe(
-      (response) =>
-      {
-        //Delete object in Grid
-        this.taskPriorities.splice(this.deleteIndex, 1);
+    this.taskPrioritiesService.deconsteTaskPriority(this.deconsteTaskPriority.taskPriorityID).subscribe(
+      () => {
+        //Deconste object in Grid
+        this.taskPriorities.splice(this.deconsteIndex, 1);
 
-        //Clear deleteCountry
-        this.deleteTaskPriority.taskPriorityID = 0;
-        this.deleteTaskPriority.taskPriorityName = '';
+        //Clear deconsteCountry
+        this.deconsteTaskPriority.taskPriorityID = 0;
+        this.deconsteTaskPriority.taskPriorityName = '';
 
         //Recall the calculateNoOfPages
         this.calculateNoOfPages();
       },
-      (error) =>
-      {
+      (error: unknown) => {
         console.log(error);
       });
   }
 
-  onSearchTextChange(event: any)
-  {
+  onSearchTextChange(): void {
     this.calculateNoOfPages();
   }
 }

@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
-import { ProjectsService } from "../../../services/projects.service";
+import { ProjectsService } from '../../../services/projects.service';
 import { Project } from '../../../models/project';
 import { ClientLocation } from '../../../models/client-location';
 import { ClientLocationsService } from '../../../services/client-locations.service';
 import { NgForm } from '@angular/forms';
-import * as $ from "jquery";
+import * as $ from 'jquery';
 import { ProjectComponent } from '../project/project.component';
 import { FilterPipe } from '../../../pipes/filter.pipe';
 import { Observable } from 'rxjs';
@@ -17,27 +17,27 @@ import { Observable } from 'rxjs';
 export class ProjectsComponent implements OnInit {
   projects: Project[] = [];
   clientLocations: Observable<ClientLocation[]> | any;
-  showLoading: boolean = true;
+  showLoading = true;
 
   newProject: Project = new Project();
   editProject: Project = new Project();
-  editIndex: number = 0;
-  deleteProject: Project = new Project();
-  deleteIndex: number = 0;
-  searchBy: string = "projectName";
-  searchText: string = "";
+  editIndex = 0;
+  deconsteProject: Project = new Project();
+  deconsteIndex = 0;
+  searchBy = 'projectName';
+  searchText = '';
 
-  currentPageIndex: number = 0;
-  pages: any[] = [];
-  pageSize: number = 3;
+  currentPageIndex = 0;
+  pages = [];
+  pageSize = 3;
 
-  @ViewChild("newForm") newForm: NgForm | any;
-  @ViewChild("editForm") editForm: NgForm | any;
+  @ViewChild('newForm') newForm: NgForm | any;
+  @ViewChild('editForm') editForm: NgForm | any;
 
   constructor(private projectsService: ProjectsService, private clientLocationsService: ClientLocationsService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.projectsService.getAllProjects().subscribe(
       (response: Project[]) => {
         this.projects = response;
@@ -51,44 +51,44 @@ export class ProjectsComponent implements OnInit {
   }
 
   calculateNoOfPages() {
-    let filterPipe = new FilterPipe();
-    var resultProjects = filterPipe.transform(this.projects, this.searchBy, this.searchText);
-    var noOfPages = Math.ceil(resultProjects.length / this.pageSize);
+    const filterPipe = new FilterPipe();
+    const resultProjects = filterPipe.transform(this.projects, this.searchBy, this.searchText);
+    const noOfPages = Math.ceil(resultProjects.length / this.pageSize);
 
     this.pages = [];
-    for (let i = 0; i < noOfPages; i++) {
+    for (const i = 0; i < noOfPages; i++) {
       this.pages.push({ pageIndex: i });
     }
 
     this.currentPageIndex = 0;
   }
 
-  isAllChecked: boolean = false;
+  isAllChecked = false;
 
-  @ViewChildren("prj") projs: QueryList<ProjectComponent> | any;
+  @ViewChildren('prj') projs: QueryList<ProjectComponent> | any;
 
-  isAllCheckedChange(event: any) {
-    let proj = this.projs.toArray();
-    for (let i = 0; i < proj.length; i++) {
+  isAllCheckedChange(event: any): void {
+    const proj = this.projs.toArray();
+    for (const i = 0; i < proj.length; i++) {
       proj[i].isAllCheckedChange(this.isAllChecked);
     }
   }
 
-  @ViewChild("prjID") prjID: ElementRef | any;
+  @ViewChild('prjID') prjID: ElementRef | any;
 
-  onNewClick(event: any) {
+  onNewClick(event: any): void {
     this.newForm.resetForm();
     setTimeout(() => {
       this.prjID.nativeElement.focus();
     }, 100);
   }
 
-  onSaveClick() {
+  onSaveClick() : void{
     if (this.newForm.valid) {
       this.newProject.clientLocation.clientLocationID = 0;
       this.projectsService.insertProject(this.newProject).subscribe((response) => {
         //Add Project to Grid
-        var p: Project = new Project();
+        const p: Project = new Project();
         p.projectID = response.projectID;
         p.projectName = response.projectName;
         p.dateOfStart = response.dateOfStart;
@@ -108,7 +108,7 @@ export class ProjectsComponent implements OnInit {
         this.newProject.clientLocationID = 0;
         this.newProject.status = '';
 
-        $("#newFormCancel").trigger("click");
+        $('#newFormCancel').trigger('click');
         this.calculateNoOfPages();
       }, (error) => {
         console.log(error);
@@ -116,12 +116,12 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  onEditClick(event: any, index: number) {
+  onEditClick(event: any, index: number) : void{
     this.editForm.resetForm();
     setTimeout(() => {
       this.editProject.projectID = this.projects[index].projectID;
       this.editProject.projectName = this.projects[index].projectName;
-      this.editProject.dateOfStart = this.projects[index].dateOfStart.split("/").reverse().join("-"); //yyyy-MM-dd
+      this.editProject.dateOfStart = this.projects[index].dateOfStart.split('/').reverse().join('-'); //yyyy-MM-dd
       this.editProject.teamSize = this.projects[index].teamSize;
       this.editProject.active = this.projects[index].active;
       this.editProject.clientLocationID = this.projects[index].clientLocationID;
@@ -131,10 +131,10 @@ export class ProjectsComponent implements OnInit {
     }, 100);
   }
 
-  onUpdateClick() {
+  onUpdateClick(): void {
     if (this.editForm.valid) {
       this.projectsService.updateProject(this.editProject).subscribe((response: Project) => {
-        var p: Project = new Project();
+        const p: Project = new Project();
         p.projectID = response.projectID;
         p.projectName = response.projectName;
         p.dateOfStart = response.dateOfStart;
@@ -153,7 +153,7 @@ export class ProjectsComponent implements OnInit {
         this.newProject.clientLocationID = 0;
         this.newProject.status = '';
 
-        $("#editFormCancel").trigger("click");
+        $('#editFormCancel').trigger('click');
       },
         (error) => {
           console.log(error);
@@ -161,31 +161,31 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  onDeleteClick(event: any, index: number) {
-    this.deleteIndex = index;
-    this.deleteProject.projectID = this.projects[index].projectID;
-    this.deleteProject.projectName = this.projects[index].projectName;
-    this.deleteProject.dateOfStart = this.projects[index].dateOfStart;
-    this.deleteProject.teamSize = this.projects[index].teamSize;
+  onDeconsteClick(event: any, index: number) : void{
+    this.deconsteIndex = index;
+    this.deconsteProject.projectID = this.projects[index].projectID;
+    this.deconsteProject.projectName = this.projects[index].projectName;
+    this.deconsteProject.dateOfStart = this.projects[index].dateOfStart;
+    this.deconsteProject.teamSize = this.projects[index].teamSize;
   }
 
-  onDeleteConfirmClick() {
-    this.projectsService.deleteProject(this.deleteProject.projectID).subscribe(
-      (response) => {
-        this.projects.splice(this.deleteIndex, 1);
-        this.deleteProject.projectID = 0;
-        this.deleteProject.projectName = '';
-        this.deleteProject.teamSize = 0;
-        this.deleteProject.dateOfStart = '';
+  onDeconsteConfirmClick() : void{
+    this.projectsService.deconsteProject(this.deconsteProject.projectID).subscribe(
+      () => {
+        this.projects.splice(this.deconsteIndex, 1);
+        this.deconsteProject.projectID = 0;
+        this.deconsteProject.projectName = '';
+        this.deconsteProject.teamSize = 0;
+        this.deconsteProject.dateOfStart = '';
 
         this.calculateNoOfPages();
       },
-      (error) => {
+      (error: any) => {
         console.log(error);
       });
   }
 
-  onSearchClick() {
+  onSearchClick(): void {
     // this.projectsService.SearchProjects(this.searchBy, this.searchText).subscribe(
     //   (response: Project[]) =>
     //   {
@@ -197,15 +197,15 @@ export class ProjectsComponent implements OnInit {
     //   });
   }
 
-  onSearchTextKeyup(event: any) {
+  onSearchTextKeyup(event: any): void {
     this.calculateNoOfPages();
   }
 
-  onHideShowDetails(event: any) {
+  onHideShowDetails(event: any) : void{
     this.projectsService.toggleDetails();
   }
 
-  onPageIndexClicked(pageIndex: number) {
+  onPageIndexClicked(pageIndex: number) : void{
     this.currentPageIndex = pageIndex;
   }
 }

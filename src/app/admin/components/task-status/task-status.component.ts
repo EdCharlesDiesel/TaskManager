@@ -10,30 +10,30 @@ import * as $ from "jquery";
   templateUrl: './task-status.component.html',
   styleUrls: ['./task-status.component.scss']
 })
-export class TaskStatusComponent implements OnInit
-{
+export class TaskStatusComponent implements OnInit {
   //Objects for Holding Model Data
   taskStatuses: TaskStatus[] = [];
-  showLoading: boolean = true;
+  showLoading = true;
 
-  //Objects for Delete
-  deleteTaskStatus: TaskStatus = new TaskStatus();
-  editIndex: number = 0;
-  deleteIndex: number = 0;
+  //Objects for Deconste
+  deconsteTaskStatus: TaskStatus = new TaskStatus();
+  editIndex = 0;
+  deconsteIndex = 0;
 
   //Properties for Searching
-  searchBy: string = "taskStatusName";
-  searchText: string = "";
+  searchBy = "taskStatusName";
+  searchText = "";
 
 
   //Properties for Paging
-  currentPageIndex: number = 0;
-  pages: any[] = [];
-  pageSize: number = 7;
+  currentPageIndex = 0;
+  pages = [];
+  pageSize = 7;
+  pageIndex = 0;
 
   //Properties for Sorting
-  sortBy: string = "taskStatusName";
-  sortOrder: string = "ASC";
+  sortBy = "taskStatusName";
+  sortOrder = "ASC";
 
   //Reactive Forms
   newForm: FormGroup | any;
@@ -44,16 +44,13 @@ export class TaskStatusComponent implements OnInit
   @ViewChild("defaultTextBox_Edit") defaultTextBox_Edit: ElementRef | any;
 
   //Constructor
-  constructor(private taskStatusesService: TaskStatusesService, private formBuilder: FormBuilder)
-  {
+  constructor(private taskStatusesService: TaskStatusesService, private formBuilder: FormBuilder) {
   }
 
-  ngOnInit()
-  {
+  ngOnInit(): void {
     //Get data from database
     this.taskStatusesService.getTaskStatuses().subscribe(
-      (response: TaskStatus[]) =>
-      {
+      (response: TaskStatus[]) => {
         this.taskStatuses = response;
         this.showLoading = false;
         this.calculateNoOfPages();
@@ -73,51 +70,43 @@ export class TaskStatusComponent implements OnInit
     });
   }
 
-  calculateNoOfPages()
-  {
+  calculateNoOfPages(): void {
     //Get no. of Pages
-    let filterPipe = new FilterPipe();
-    var noOfPages = Math.ceil(filterPipe.transform(this.taskStatuses, this.searchBy, this.searchText).length / this.pageSize);
+    const filterPipe = new FilterPipe();
+    const noOfPages = Math.ceil(filterPipe.transform(this.taskStatuses, this.searchBy, this.searchText).length / this.pageSize);
     this.pages = [];
 
     //Generate pages
-    for (let i = 0; i < noOfPages; i++)
-    {
-      this.pages.push({ pageIndex: i });
+    for (let h = 0; h < noOfPages; h++) {
+      this.pages.push({ pageIndex: h });
     }
 
     this.currentPageIndex = 0;
   }
 
-  onPageIndexClicked(ind: any)
-  {
+  onPageIndexClicked(index: number): void {
     //Set currentPageIndex
-    if (ind >= 0 && ind < this.pages.length)
-    {
-      this.currentPageIndex = ind;
+    this.pageIndex = index;
+    if (index >= 0 && index < this.pages.length) {
+      this.currentPageIndex = this.pageIndex;
     }
   }
 
-  onNewClick(event: any)
-  {
+  onNewClick(event: unknown): void {
     //reset the newForm
     this.newForm.reset({ taskStatusID: 0 });
-    setTimeout(() =>
-    {
+    setTimeout(() => {
       //Focus the TaskStatus textbox in newForm
       this.defaultTextBox_New.nativeElement.focus();
     }, 100);
   }
 
-  onSaveClick()
-  {
-    if (this.newForm.valid)
-    {
+  onSaveClick(): void {
+    if (this.newForm.valid) {
       //Invoke the REST-API call
-      this.taskStatusesService.insertTaskStatus(this.newForm.value).subscribe((response) =>
-      {
+      this.taskStatusesService.insertTaskStatus(this.newForm.value).subscribe((response) => {
         //Add Response to Grid
-        var p: TaskStatus = new TaskStatus();
+        const p: TaskStatus = new TaskStatus();
         p.taskStatusID = response.taskStatusID;
         p.taskStatusName = response.taskStatusName;
         this.taskStatuses.push(p);
@@ -128,19 +117,16 @@ export class TaskStatusComponent implements OnInit
         this.calculateNoOfPages();
 
         this.calculateNoOfPages();
-      }, (error) =>
-        {
-          console.log(error);
-        });
+      }, (error) => {
+        console.log(error);
+      });
     }
   }
 
-  onEditClick(event: any, taskStatus: TaskStatus)
-  {
+  onEditClick(taskStatus: TaskStatus): void {
     //Reset the editForm
     this.editForm.reset();
-    setTimeout(() =>
-    {
+    setTimeout(() => {
       this.editForm.patchValue(taskStatus);
       this.editIndex = this.taskStatuses.indexOf(taskStatus);
 
@@ -149,13 +135,10 @@ export class TaskStatusComponent implements OnInit
     }, 100);
   }
 
-  onUpdateClick()
-  {
-    if (this.editForm.valid)
-    {
+  onUpdateClick(): void {
+    if (this.editForm.valid) {
       //Invoke the REST-API call
-      this.taskStatusesService.updateTaskStatus(this.editForm.value).subscribe((response: TaskStatus) =>
-      {
+      this.taskStatusesService.updateTaskStatus(this.editForm.value).subscribe((response: TaskStatus) => {
         //Update the response in Grid
         this.taskStatuses[this.editIndex] = response;
 
@@ -163,45 +146,39 @@ export class TaskStatusComponent implements OnInit
         this.editForm.reset();
         $("#editTaskStatusFormCancel").trigger("click");
       },
-        (error) =>
-        {
+        (error) => {
           console.log(error);
         });
     }
   }
 
-  onDeleteClick(event: any, taskStatus: TaskStatus)
-  {
-    //Set data into deleteTaskStatus
-    this.deleteTaskStatus.taskStatusID = taskStatus.taskStatusID;
-    this.deleteTaskStatus.taskStatusName = taskStatus.taskStatusName;
-    this.deleteIndex = this.taskStatuses.indexOf(taskStatus);
+  onDeconsteClick(taskStatus: TaskStatus): void {
+    //Set data into deconsteTaskStatus
+    this.deconsteTaskStatus.taskStatusID = taskStatus.taskStatusID;
+    this.deconsteTaskStatus.taskStatusName = taskStatus.taskStatusName;
+    this.deconsteIndex = this.taskStatuses.indexOf(taskStatus);
   }
 
-  onDeleteConfirmClick()
-  {
+  onDeconsteConfirmClick(): void {
     //Invoke the REST-API call
-    this.taskStatusesService.deleteTaskStatus(this.deleteTaskStatus.taskStatusID).subscribe(
-      (response) =>
-      {
-        //Delete object in Grid
-        this.taskStatuses.splice(this.deleteIndex, 1);
+    this.taskStatusesService.deconsteTaskStatus(this.deconsteTaskStatus.taskStatusID).subscribe(
+      () => {
+        //Deconste object in Grid
+        this.taskStatuses.splice(this.deconsteIndex, 1);
 
-        //Clear deleteCountry
-        this.deleteTaskStatus.taskStatusID = 0;
-        this.deleteTaskStatus.taskStatusName = '';
+        //Clear deconsteCountry
+        this.deconsteTaskStatus.taskStatusID = 0;
+        this.deconsteTaskStatus.taskStatusName = '';
 
         //Recall the calculateNoOfPages
         this.calculateNoOfPages();
       },
-      (error) =>
-      {
+      (error: unknown) => {
         console.log(error);
       });
   }
 
-  onSearchTextChange(event: any)
-  {
+  onSearchTextChange(): void {
     this.calculateNoOfPages();
   }
 }

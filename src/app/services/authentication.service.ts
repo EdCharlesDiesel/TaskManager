@@ -18,7 +18,7 @@ export class AuthenticationService {
 
   }
 
-  login(user: User) {
+  login(user: User): any {
     return this.httpClient.post<any>('https://localhost:5001/api/login', user)
       .pipe(map((response: any) => {
         if (response && response.token) {
@@ -33,7 +33,7 @@ export class AuthenticationService {
       }));
   }
 
-  setUserDetails() {
+  setUserDetails(): void {
     if (sessionStorage.getItem('authToken')) {
       const userDetails = new User();
       const decodeUserDetails = JSON.parse(atob(sessionStorage.getItem('authToken')!.split('.')[1]));
@@ -47,24 +47,24 @@ export class AuthenticationService {
     }
   }
 
-  logout() {
+  logout(): void {
     sessionStorage.clear();
     this.resetSubscription();
     this.setTempUserId();
   }
 
-  setTempUserId() {
+  setTempUserId(): void {
     if (!sessionStorage.getItem('userId')) {
       const tempUserID = this.generateTempUserId();
       sessionStorage.setItem('userId', tempUserID.toString());
     }
   }
 
-  generateTempUserId() {
+  generateTempUserId(): number {
     return Math.floor(Math.random() * (99999 - 11111 + 1) + 12345);
   }
 
-  resetSubscription() {
+  resetSubscription(): void {
     this.userData.next(new User());
   }
 }

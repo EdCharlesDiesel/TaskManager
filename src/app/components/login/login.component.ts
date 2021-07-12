@@ -16,18 +16,18 @@ import { CustomValidatorsService } from 'src/app/services/custom-validators.serv
 })
 export class LoginComponent implements OnInit {
   loginViewModel: LoginViewModel = new LoginViewModel();
-  loginError: string = "";
+  loginError = "";
   userId: any;
   loginForm: FormGroup | any;
   showPassword = true;
 
   private unsubscribe$ = new Subject<void>();
 
-  getUsername() {
+  getUsername() : void{
     return this.loginForm.get('username');
   }
 
-  getPassword() {
+  getPassword() : void{
     return this.loginForm.get('password');
   }
   constructor(private loginService: LoginService,
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     private customValidatorsService: CustomValidatorsService) {
   }
 
-  ngOnInit() {
+  ngOnInit() : void{
 
     this.loginForm = this.formBuilder.group({
       username: [null, [Validators.required]],
@@ -48,9 +48,9 @@ export class LoginComponent implements OnInit {
         this.customValidatorsService.compareValidator("confirmPassword", "password")
       ]
     });
-  };
+  }
 
-  onloginClick() {
+  onloginClick() : void{
 
     //Display current form value
 

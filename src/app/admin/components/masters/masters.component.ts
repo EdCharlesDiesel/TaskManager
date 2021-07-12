@@ -11,8 +11,7 @@ import { TaskStatusComponent } from '../task-status/task-status.component';
   templateUrl: './masters.component.html',
   styleUrls: ['./masters.component.scss']
 })
-export class MastersComponent implements OnInit
-{
+export class MastersComponent {
   masterMenuItems = [
     { itemName: "Countries", displayName: "Countries", component: CountriesComponent },
     { itemName: "ClientLocations", displayName: "Client Locations", component: ClientLocationsComponent },
@@ -20,8 +19,8 @@ export class MastersComponent implements OnInit
     { itemName: "TaskStatus", displayName: "Task Status", component: TaskStatusComponent },
   ];
 
-  activeItem: string= '';
-  tabs:any = [] ;
+  activeItem= '';
+  tabs= [] ;
 
   @ViewChildren(ComponentLoaderDirective) componentLoaders: QueryList<ComponentLoaderDirective> | any;
 
@@ -29,16 +28,14 @@ export class MastersComponent implements OnInit
   {
   }
 
-  ngOnInit()
-  {
-  }
 
-  menuItemClick(clickedMasterMenuItem: any)
+  menuItemClick(clickedMasterMenuItem: any): void
   {
     //console.log(clickedMasterMenuItem);
+
     this.activeItem = clickedMasterMenuItem.itemName;
 
-    let matchingTabs = this.tabs.filter((tab: any) =>
+    const matchingTabs = this.tabs.filter((tab: any) =>
     {
       return tab.itemName == clickedMasterMenuItem.itemName
     });
@@ -52,18 +49,18 @@ export class MastersComponent implements OnInit
       });
 
       setTimeout(() => {
-        var componentLoadersArray = this.componentLoaders.toArray();
-        var componentFactory = this.componentFactoryResolver.resolveComponentFactory(clickedMasterMenuItem.component);
+        const componentLoadersArray = this.componentLoaders.toArray();
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(clickedMasterMenuItem.component);
 
-        var viewContainterRef = componentLoadersArray[this.tabs.length - 1].viewContainerRef;
+        const viewContainterRef = componentLoadersArray[this.tabs.length - 1].viewContainerRef;
 
-        var componentRef = viewContainterRef.createComponent(componentFactory);
+        const componentRef = viewContainterRef.createComponent(componentFactory);
 
         this.tabs[this.tabs.length - 1].viewContainerRef = viewContainterRef;
 
         if (clickedMasterMenuItem.component.name == "CountriesComponent")
         {
-          var componentInstance = componentRef.instance as CountriesComponent;
+          const componentInstance = componentRef.instance as CountriesComponent;
           // componentInstance.message = "Hello to Countries";
         }
       }, 100);

@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'numberToWords'
 })
 export class NumberToWordsPipe implements PipeTransform {
-  transform(value: any, separator: string = ", "): any {
+  transform(value: any, separator = ', '): any {
     if (value == null) {
       return null;
     }
@@ -14,19 +14,19 @@ export class NumberToWordsPipe implements PipeTransform {
   }
 
   private inWords = (n: any, separator: any): any => {
-    let a = [
+    const a = [
       '', 'One', 'Two', 'Three', 'Four',
       'Five', 'Six', 'Seven', 'Eight', 'Nine',
       'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen',
       'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
     ];
 
-    let b = [
+    const b = [
       '', '', 'Twenty', 'Thirty', 'Forty',
       'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'
     ];
 
-    let g = [
+    const g = [
       '', 'Thousand', 'Million', 'Billion', 'Trillion', 'Quadrillion',
       'Quintillion', 'Sextillion', 'Septillion', 'Octillion', 'Nonillion'
     ];
@@ -43,7 +43,7 @@ export class NumberToWordsPipe implements PipeTransform {
     const chunk = (n: any) => (xs: any): any =>
       isEmpty(xs) ? [] : [take(n)(xs), ...chunk(n)(drop(n)(xs))];
 
-    let makeGroup = ([ones, tens, huns] : string | any) => {
+    const makeGroup = ([ones, tens, huns] : string | any) => {
       return [
         num(huns) === 0 ? '' : a[huns] + ' Hundred ',
         num(ones) === 0 ? b[tens] : b[tens] && b[tens] + '-' || '',
@@ -51,7 +51,7 @@ export class NumberToWordsPipe implements PipeTransform {
       ].join('');
     };
 
-    let thousand = (group: any, i: number) => group === '' ? group : `${group} ${g[i]}`;
+    const thousand = (group: any, i: number) => group === '' ? group : `${group} ${g[i]}`;
 
     if (typeof n === 'number')
       return this.inWords(str(n.toString()), separator);

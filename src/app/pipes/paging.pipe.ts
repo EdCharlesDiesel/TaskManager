@@ -13,7 +13,7 @@ export class PagingPipe implements PipeTransform
       return value;
     }
 
-    let resultArray = [];
+    const resultArray = [];
     for (let i = currentPageIndex * pageSize; i < (currentPageIndex + 1) * pageSize; i++)
     {
       if (value[i])

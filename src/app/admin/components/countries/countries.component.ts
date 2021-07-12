@@ -14,21 +14,21 @@ export class CountriesComponent implements OnInit
 {
   //Objects for Holding Model Data
   countries: Country[] = [];
-  showLoading: boolean = false;
+  showLoading = false;
 
-  //Objects for Delete
-  deleteCountry: Country = new Country();
-  editIndex: number = 0;
-  deleteIndex: number = 0;
+  //Objects for Deconste
+  deconsteCountry: Country = new Country();
+  editIndex = 0;
+  deconsteIndex = 0;
 
   //Properties for Searching
-  searchBy: string = "countryName";
-  searchText: string = "";
+  searchBy = "countryName";
+  searchText = "";
 
   //Properties for Paging
-  currentPageIndex: number = 0;
+  currentPageIndex = 0;
   pages: any[] = [];
-  pageSize: number = 7;
+  pageSize = 7;
 
   //Reactive Forms
   newForm: FormGroup | any;
@@ -39,15 +39,15 @@ export class CountriesComponent implements OnInit
   @ViewChild("defaultTextBox_Edit") defaultTextBox_Edit: ElementRef | any;
 
   //Sorting
-  sortBy: string = "countryName";
-  sortOrder: string = "ASC"; //ASC | DESC
+  sortBy = "countryName";
+  sortOrder = "ASC"; //ASC | DESC
 
   //Constructor
   constructor(private countriesService: CountriesService, private formBuilder: FormBuilder)
   {
   }
 
-  ngOnInit()
+  ngOnInit(): void
   {
     //Get data from database
     this.countriesService.getCountries().subscribe(
@@ -72,15 +72,15 @@ export class CountriesComponent implements OnInit
     });
   }
 
-  calculateNoOfPages()
+  calculateNoOfPages(): void
   {
     //Get no. of Pages
-    let filterPipe = new FilterPipe();
-    var noOfPages = Math.ceil(filterPipe.transform(this.countries, this.searchBy, this.searchText).length / this.pageSize);
+    const filterPipe = new FilterPipe();
+    const noOfPages = Math.ceil(filterPipe.transform(this.countries, this.searchBy, this.searchText).length / this.pageSize);
     this.pages = [];
 
     //Generate pages
-    for (let i = 0; i < noOfPages; i++)
+    for (const i = 0; i < noOfPages; i++)
     {
       this.pages.push({ pageIndex: i });
     }
@@ -88,7 +88,7 @@ export class CountriesComponent implements OnInit
     this.currentPageIndex = 0;
   }
 
-  onPageIndexClicked(ind: any)
+  onPageIndexClicked(ind: any): void
   {
     //Set currentPageIndex
     if (ind >= 0 && ind < this.pages.length)
@@ -97,7 +97,7 @@ export class CountriesComponent implements OnInit
     }
   }
 
-  onNewClick(event: any)
+  onNewClick(event: any): void
   {
     //reset the newForm
     this.newForm.reset({ countryID: 0 });
@@ -108,7 +108,7 @@ export class CountriesComponent implements OnInit
     }, 100);
   }
 
-  onSaveClick()
+  onSaveClick(): void
   {
     if (this.newForm.valid)
     {
@@ -116,7 +116,7 @@ export class CountriesComponent implements OnInit
       this.countriesService.insertCountry(this.newForm.value).subscribe((response) =>
       {
         //Add Response to Grid
-        var p: Country = new Country();
+        const p: Country = new Country();
         p.countryID = response.countryID;
         p.countryName = response.countryName;
         this.countries.push(p);
@@ -170,36 +170,36 @@ export class CountriesComponent implements OnInit
     }
   }
 
-  onDeleteClick(event: any, country: Country)
+  onDeconsteClick(event: any, country: Country)
   {
-    //Set data into deleteCountry
-    this.deleteCountry.countryID = country.countryID;
-    this.deleteCountry.countryName = country.countryName;
-    this.deleteIndex = this.countries.indexOf(country);
+    //Set data into deconsteCountry
+    this.deconsteCountry.countryID = country.countryID;
+    this.deconsteCountry.countryName = country.countryName;
+    this.deconsteIndex = this.countries.indexOf(country);
   }
 
-  onDeleteConfirmClick()
+  onDeconsteConfirmClick(): void
   {
     //Invoke the REST-API call
-    this.countriesService.deleteCountry(this.deleteCountry.countryID).subscribe(
-      (response) =>
+    this.countriesService.deconsteCountry(this.deconsteCountry.countryID).subscribe(
+      () =>
       {
-        //Delete object in Grid
-        this.countries.splice(this.deleteIndex, 1);
+        //Deconste object in Grid
+        this.countries.splice(this.deconsteIndex, 1);
 
-        //Clear deleteCountry
-        this.deleteCountry.countryID = 0;
-        this.deleteCountry.countryName = '';
+        //Clear deconsteCountry
+        this.deconsteCountry.countryID = 0;
+        this.deconsteCountry.countryName = '';
 
         this.calculateNoOfPages();
       },
-      (error) =>
+      (error: any) =>
       {
         console.log(error);
       });
   }
 
-  onSearchTextChange(event: any)
+  onSearchTextChange(event: any): void
   {
     //Recall the calculateNoOfPages
     this.calculateNoOfPages();

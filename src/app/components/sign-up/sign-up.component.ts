@@ -18,15 +18,15 @@ export class SignUpComponent implements OnInit, CanComponentDeactivate
   signUpForm: FormGroup | any;
   genders = ["male", "female"];
   countries: Country[] = [];
-  registerError: string = '';
+  registerError = '';
 
-  canLeave: boolean = true;
+  canLeave = true;
 
   constructor(private countriesService: CountriesService, private formBuilder: FormBuilder, private customValidatorsService: CustomValidatorsService, private loginService: LoginService, private router: Router)
   {
   }
 
-  ngOnInit()
+  ngOnInit(): void
   {
     this.countriesService.getCountries().subscribe((response) =>
     {
@@ -55,14 +55,14 @@ export class SignUpComponent implements OnInit, CanComponentDeactivate
         ]
       });
 
-    this.signUpForm.valueChanges.subscribe((value: any) =>
+    this.signUpForm.valueChanges.subscribe(() =>
     {
       //console.log(value);
       this.canLeave = false;
     });
   }
 
-  onSubmitClick()
+  onSubmitClick(): void
   {
     //Display current form value
     this.signUpForm["submitted"] = true;
@@ -70,9 +70,9 @@ export class SignUpComponent implements OnInit, CanComponentDeactivate
 
     if (this.signUpForm.valid)
     {
-      var signUpViewModel = this.signUpForm.value as SignUpViewModel;
+      const signUpViewModel = this.signUpForm.value as SignUpViewModel;
       this.loginService.Register(signUpViewModel).subscribe(
-        (response) =>
+        () =>
         {
           this.canLeave = true;
           this.router.navigate(["/employee", "tasks"]);
@@ -114,9 +114,9 @@ export class SignUpComponent implements OnInit, CanComponentDeactivate
     // });
   }
 
-  onAddSkill()
+  onAddSkill(): void
   {
-    var formGroup = new FormGroup({
+    const formGroup = new FormGroup({
       skillName: new FormControl(null, [Validators.required]),
       skillLevel: new FormControl(null, [Validators.required])
     });
@@ -124,7 +124,7 @@ export class SignUpComponent implements OnInit, CanComponentDeactivate
     (<FormArray>this.signUpForm.get("skills")).push(formGroup);
   }
 
-  onRemoveClick(index: number)
+  onRemoveClick(index: number): void
   {
     (<FormArray>this.signUpForm.get("skills")).removeAt(index);
   }

@@ -2,12 +2,12 @@ import { Task } from './task';
 
 export class GroupedTask
 {
-    taskStatusName: number;
+    taskStatusName: string;
     tasks: Task[] = [];
 
     constructor()
     {
-        this.taskStatusName = 0;
+        this.taskStatusName ='';
         this.tasks = []
     }
 }

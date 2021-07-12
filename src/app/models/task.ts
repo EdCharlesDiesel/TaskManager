@@ -1,3 +1,4 @@
+import { TaskPriority } from './task-priority';
 import { Project } from './project';
 
 export class Task {
@@ -8,10 +9,12 @@ export class Task {
   projectID: number;
   createdBy: string;
   assignedTo: string;
-  taskPriorityID: number;
+  taskPriorityID?: number;
   lastUpdatedOn: number;
   currentStatus: number;
   currentTaskStatusID: number;
+  taskPriority?: any;
+  createdOnString?: string;
 
   project: Project | null;
   createdByUser: any;
